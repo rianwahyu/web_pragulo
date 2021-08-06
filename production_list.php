@@ -77,9 +77,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Daftar Produksi</h4>
                                 <h6 class="card-subtitle">Data barang yang dilakukan secara pesanan untuk di produksi</h6>
-                                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Barang</button>
-                                <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6> -->
-
+                                
                                 <div class="table-responsive">
                                     <?php if (mysqli_num_rows($result) >= 1) { ?>
                                         <table class="table">
@@ -89,6 +87,7 @@
                                                     <th scope="col">ID Produksi</th>
                                                     <th scope="col">ID Order</th>
                                                     <th scope="col">Nama Barang</th>
+                                                    <th scope="col">Jenis</th>
                                                     <th scope="col">Tgl Masuk</th>
                                                     <th scope="col">Tgl Selesai</th>
                                                     <th scope="col">Status</th>
@@ -97,18 +96,22 @@
                                             </thead>
                                             <tbody>
                                                 <?php
+                                                $jenisMebel="";
                                                 $i = 1;
-                                                while ($data = mysqli_fetch_array($result)) { ?>
+                                                while ($data = mysqli_fetch_array($result)) {
+                                                    if($data['type']=="local")  {$jenisMebel="Kayu Local";}else  {$jenisMebel="Kayu Jati";} 
+                                                    ?>
                                                     <tr>
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $data['productionID']; ?></td>
                                                         <td><?= $data['orderID']; ?></td>
                                                         <td><?= $data['itemName']; ?></td>
+                                                        <td><?= $jenisMebel; ?></td>
                                                         <td><?= $data['dateIn']; ?></td>
                                                         <td><?= $data['dateFinish']; ?></td>
                                                         <td><?= $data['status']; ?></td>
                                                         <td>
-                                                            <a href="order_list_detail?orderID=<?= $data['orderID'] ?>">
+                                                            <a href="production_list_detail?productionID=<?= $data['productionID'] ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="fas fa-eye"></i> Detail</button>
                                                             </a>
                                                         </td>

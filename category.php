@@ -97,7 +97,7 @@
                 ?>
 
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-sm-12 col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Kategori</h4>

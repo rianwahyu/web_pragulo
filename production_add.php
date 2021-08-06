@@ -66,6 +66,15 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
 
+            <?php
+            $successInsert = '<div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show"
+                                    role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong>Sukses - </strong> Sukses menambahkan barang ke proses produksi
+                                </div>'; ?>
+
             <div class="container-fluid">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
@@ -75,6 +84,7 @@
 
                 if (isset($_GET)) {
                     $key = $_GET['key'];
+                    $status = $_GET['status'];
                 }
                 ?>
                 <div class="row">
@@ -94,13 +104,11 @@
                     </div>
                 </div>
 
-
-
                 <div class="row">
 
                     <?php
 
-                    $query = "SELECT a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID  INNER JOIN item c ON a.itemID=c.itemID WHERE a.itemtype='onOrder' ";
+                    $query = "SELECT a.id as orderItemID, a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID  INNER JOIN item c ON a.itemID=c.itemID WHERE a.itemtype='onOrder' AND a.prod='0' ";
                     $result = mysqli_query($dbc, $query);
 
                     ?>
@@ -111,128 +119,114 @@
                                 <h4 class="card-title">Daftar</h4>
                                 <h6 class="card-subtitle">Data barang yang akan di proses ke produksi</h6>
 
-                                <div class="table-responsive mt-4">
-                                    <table class="table" style="width: 100%;">
-                                        <thead class="bg-primary text-white">
-                                            <tr>
-                                                <th class="text-center">#</th>
-                                                <th class="text-center">ID Order</th>
-                                                <th class="text-center">Nama Customer</th>
-                                                <th class="text-center">Nama Barang</th>
-                                                <th class="text-center">Jumlah</th>
-                                                <th class="text-center">Harga Satuan</th>
-                                                <th class="text-center">Keterangan</th>
-                                                <th class="text-center">Opsi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $i = 1;
-                                            while ($data = mysqli_fetch_array($result)) { ?>
+                                <?php
+                                if ($status == "true") {echo $successInsert;}
+                                ?>
+
+                                <?php if (mysqli_num_rows($result3) >= 1) {  ?>
+                                    <div class="table-responsive mt-4">
+                                        <table class="table" style="width: 100%;">
+                                            <thead class="bg-primary text-white">
                                                 <tr>
-                                                    <td><?= $i++ ?></td>
-                                                    <td><?= $data['orderID'] ?></td>
-                                                    <td><?= $data['customerName'] ?></td>
-                                                    <td><?= $data['itemName'] ?></td>
-                                                    <td class="text-right"><?= Round($data['quantity']) ?></td>
-                                                    <td class="text-right"><?= rupiah(Round($data['price'])) ?></td>
-                                                    <!-- <td class="text-right"><?= rupiah($data['quantity'] * $data['price']) ?></td> -->
-                                                    <td><?= $data['keterangan'] ?></td>
-                                                    <td>
-                                                        <a href="#" data-toggle="modal" data-target="#confirmProduction<?= $i; ?>">
-                                                            <button type="button" class="btn btn-info btn-rounded"><i class="far fa-check"></i> Confirm</button>
-                                                        </a>
-                                                        <!-- <a href="#" data-toggle="modal" data-target="#deleteOrder<?= $data['id']; ?>">
-                                                        <button type="button" class="btn btn-danger btn-rounded"><i class="far fa-trash-alt"></i> Delete</button>
-                                                    </a> -->
-
-                                                        <div id="confirmProduction<?= $i ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog">
-
-                                                                <form class="mt-2" action="config/order/editTempOrder" method="POST">
-                                                                    <input type="hidden" name="id" value="<?= $data['id'] ?>" />
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title" id="myModalLabel">Konfirmasi Produksi</h4>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <div class="form-group">
-                                                                                <label>ID Order</label>
-                                                                                <input type="text" class="form-control" name="quantity" value="<?= $data['orderID'] ?>" />
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label>Nama Customer</label>
-                                                                                <input type="text" class="form-control" name="quantity" value="<?= $data['orderID'] ?>" />
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label>Banyaknya</label>
-                                                                                <input type="text" class="form-control" name="quantity" value="<?= round($data['quantity']) ?>" />
-                                                                            </div>
-
-                                                                            <div class="form-group">
-                                                                                <label>Harga</label>
-                                                                                <input type="text" class="form-control" name="price" value="<?= round($data['price']) ?>" />
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                                                            <button type="submit" class="btn btn-success">Konfirmasi</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-
-                                                            </div>
-                                                        </div>
-
-                                                        <div id="deleteOrder<?= $data['id'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fill-danger-modalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <form action="config/order/deleteTempOrder" method="POST">
-                                                                    <input type="hidden" name="id" value="<?= $data['id'] ?>" />
-                                                                    <div class="modal-content modal-filled bg-danger">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title" id="fill-danger-modalLabel">Hapus Barang
-                                                                            </h4>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>Apakah anda ingin menghapus barang terpilih ?</p>
-
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                                                            <button type="submit" class="btn btn-outline-light">Hapus</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                                <!-- /.modal-content -->
-                                                            </div><!-- /.modal-dialog -->
-                                                        </div>
-
-                                                    </td>
+                                                    <th id="no" class="text-center">#</th>
+                                                    <th id="idOrder" class="text-center">ID Order</th>
+                                                    <th id="customerName" class="text-center">Nama Customer</th>
+                                                    <th id="itemName" class="text-center">Nama Barang</th>
+                                                    <th id="quantity" class="text-center">Jumlah</th>
+                                                    <th id="harga" class="text-center">Harga Satuan</th>
+                                                    <th id="keterangan" class="text-center">Keterangan</th>
+                                                    <th id="opsi" class="text-center">Opsi</th>
                                                 </tr>
-                                            <?php }
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $i = 1;
+                                                while ($data = mysqli_fetch_array($result)) { ?>
+                                                    <tr>
+                                                        <td><?= $i++ ?></td>
+                                                        <td><?= $data['orderID'] ?></td>
+                                                        <td><?= $data['customerName'] ?></td>
+                                                        <td><?= $data['itemName'] ?></td>
+                                                        <td class="text-right"><?= Round($data['quantity']) ?></td>
+                                                        <td class="text-right"><?= rupiah(Round($data['price'])) ?></td>
+                                                        <!-- <td class="text-right"><?= rupiah($data['quantity'] * $data['price']) ?></td> -->
+                                                        <td><?= $data['keterangan'] ?></td>
+                                                        <td>
+                                                            <a href="#" data-toggle="modal" data-target="#confirmProduction<?= $i; ?>">
+                                                                <button type="button" class="btn btn-success btn-rounded"><i class="fas fa-check"></i> Confirm</button>
+                                                            </a>
 
-                                            function rupiah($angka)
-                                            {
+                                                            <div id="confirmProduction<?= $i ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
 
-                                                $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
-                                                return $hasil_rupiah;
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
+                                                                    <form class="mt-2" action="config/production/addProduction.php" method="POST">
 
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title" id="myModalLabel">Konfirmasi Produksi</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="form-group">
+                                                                                    <label>ID Order</label>
+                                                                                    <input type="textbox" class="form-control" name="orderID" value="<?= $data['orderID'] ?>" readonly />
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label>Nama Customer</label>
+                                                                                    <input type="text" class="form-control" name="customerName" value="<?= $data['customerName'] ?>" readonly />
+                                                                                </div>
 
+                                                                                <div class="form-group">
+                                                                                    <label hidden>Item ID</label>
+                                                                                    <input type="hidden" class="form-control" name="itemID" value="<?= $data['itemID'] ?>" />
+                                                                                </div>
 
-                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label hidden>Item ID</label>
+                                                                                    <input type="hidden" class="form-control" name="orderItemID" value="<?= $data['orderItemID'] ?>" />
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                <label>Jenis Mebel</label>
+                                                                                <select class="form-control" name="type">
+                                                                                    <option selected disabled>Pilh Jenis Mebe</option>
+                                                                                    <option value="local">Kayu Lokal</option>
+                                                                                    <option value="jati">Kayu Jati</option>
+                                                                                </select>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                                                                                <button type="submit" class="btn btn-success">Konfirmasi</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php }
+
+                                                function rupiah($angka)
+                                                {
+
+                                                    $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
+                                                    return $hasil_rupiah;
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <?php
+                                }else{
+                                    echo "<h4>Tidak ada Data</h4>";
+                                } ?>
+
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
 
             </div>
