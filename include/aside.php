@@ -33,12 +33,26 @@
                                 <li class="sidebar-item"><a href="order_add" class="sidebar-link"><span
                                             class="hide-menu"> Tambah Order
                                         </span></a>
-                                </li>
-                                <!-- <li class="sidebar-item"><a href="form-checkbox-radio.html" class="sidebar-link"><span
-                                            class="hide-menu"> Checkboxes &
-                                            Radios
+                                </li>                                
+                            </ul>
+                        </li>
+
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                                aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
+                                    class="hide-menu">Produksi</span></a>
+                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                <li class="sidebar-item"><a href="production_list" class="sidebar-link"><span
+                                            class="hide-menu"> List Produksi
                                         </span></a>
-                                </li> -->
+                                </li>
+                                <li class="sidebar-item"><a href="production_add" class="sidebar-link"><span
+                                            class="hide-menu"> Tambah Produksi
+                                        </span></a>
+                                </li>
+                                <!-- <li class="sidebar-item"><a href="order_add" class="sidebar-link"><span
+                                            class="hide-menu"> Tambah Order
+                                        </span></a>
+                                </li>                                 -->
                             </ul>
                         </li>
 

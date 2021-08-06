@@ -30,4 +30,7 @@ if($cek > 0){
 }else{
 	header("location:../auth_login?pesan=gagal");
 }
+
+//Ri4nw@hyu1711
 ?>
+

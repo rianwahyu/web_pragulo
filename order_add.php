@@ -275,7 +275,7 @@
                                                 <label>Metode Pembayaran</label>
                                                 <select name="installment" class="form-control">
                                                     <option selected disabled>Pilih Metode Pembayaran</option>
-                                                    <option value="1">Cash</option>
+                                                    <option value="0">Cash</option>
                                                     <option value="3">Cicilan 3 Bulan</option>
                                                     <option value="6">Cicilan 6 Bulan</option>
                                                     <option value="12">Cicilan 12 Bulan</option>

@@ -50,13 +50,13 @@
                         </div>
                     </div>
                     <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">
+                        <!-- <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
                                 <option selected>Aug 19</option>
                                 <option value="1">July 19</option>
                                 <option value="2">Jun 19</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                 <!-- *************************************************************** -->
                 <!-- Start First Cards -->
                 <!-- *************************************************************** -->
-                <div class="card-group">
+                <!-- <div class="card-group">
                     <div class="card border-right">
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -133,14 +133,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- *************************************************************** -->
                 <!-- End First Cards -->
                 <!-- *************************************************************** -->
                 <!-- *************************************************************** -->
                 <!-- Start Sales Charts Section -->
                 <!-- *************************************************************** -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
@@ -243,14 +243,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- *************************************************************** -->
                 <!-- End Sales Charts Section -->
                 <!-- *************************************************************** -->
                 <!-- *************************************************************** -->
                 <!-- Start Location and Earnings Charts Section -->
                 <!-- *************************************************************** -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-6 col-lg-8">
                         <div class="card">
                             <div class="card-body">
@@ -332,14 +332,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- *************************************************************** -->
                 <!-- End Location and Earnings Charts Section -->
                 <!-- *************************************************************** -->
                 <!-- *************************************************************** -->
                 <!-- Start Top Leader Table -->
                 <!-- *************************************************************** -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -520,7 +520,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- *************************************************************** -->
                 <!-- End Top Leader Table -->
                 <!-- *************************************************************** -->
