@@ -135,7 +135,15 @@
 
 
                                 <div class="table-responsive">
-                                    <?php if (mysqli_num_rows($result) >= 1) { ?>
+                                    <?php if (mysqli_num_rows($result) >= 1) {
+                                        while ($data = mysqli_fetch_array($result)) {
+                                            $myArray[] = $data;
+                                        } ?>
+
+                                        <form action="config/item/downloadExcelItem.php" method="POST" target="_blank">
+                                            <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
+                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                        </form>
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -150,7 +158,7 @@
                                             <tbody>
                                                 <?php
                                                 $i = 1;
-                                                while ($data = mysqli_fetch_array($result)) { ?>
+                                                foreach ($myArray as $data) { ?>
                                                     <tr>
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $data['itemName']; ?></td>
@@ -185,12 +193,12 @@
                                                                         <div class="modal-body">
                                                                             <div class="form-group">
                                                                                 <label>Nama Barang</label>
-                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['itemName']?>">
+                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['itemName'] ?>">
                                                                             </div>
 
                                                                             <div class="form-group mt-2">
                                                                                 <label>Deskripsi Barang</label>
-                                                                                <input type="text" class="form-control" name="itemDescription" value="<?= $data['itemDescription']?>">
+                                                                                <input type="text" class="form-control" name="itemDescription" value="<?= $data['itemDescription'] ?>">
                                                                             </div>
 
                                                                             <div class="form-group mt-2">
@@ -198,7 +206,7 @@
                                                                                 <select class="form-control" name="categoryID">
                                                                                     <option selected disabled>Pilih Kategori</option>
                                                                                     <?php while ($datas = mysqli_fetch_array($results)) { ?>
-                                                                                        <option value="<?= $datas['categoryID'] ?>" <?php if($datas['categoryID']==$data['categoryID']) echo 'selected="selected"'; ?>><?= $datas['categoryName'] ?></option>
+                                                                                        <option value="<?= $datas['categoryID'] ?>" <?php if ($datas['categoryID'] == $data['categoryID']) echo 'selected="selected"'; ?>><?= $datas['categoryName'] ?></option>
                                                                                     <?php } ?>
 
                                                                                 </select>
@@ -206,7 +214,7 @@
 
                                                                             <div class="form-group mt-2">
                                                                                 <label>Harga</label>
-                                                                                <input type="number" class="form-control" name="price" value="<?= $data['price']?>">
+                                                                                <input type="number" class="form-control" name="price" value="<?= $data['price'] ?>">
                                                                             </div>
 
                                                                         </div>

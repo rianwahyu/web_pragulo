@@ -38,7 +38,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Master Barang</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Daftar Order / Pesanan</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -82,7 +82,14 @@
 
 
                                 <div class="table-responsive">
-                                    <?php if (mysqli_num_rows($result) >= 1) { ?>
+                                    <?php if (mysqli_num_rows($result) >= 1) {
+                                        while ($data = mysqli_fetch_array($result)) {
+                                            $myArray[] = $data;
+                                        } ?>
+                                        <form action="config/order/downloadExcelOrderList.php" method="POST" target="_blank">
+                                            <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
+                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                        </form>
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -99,7 +106,7 @@
                                             <tbody>
                                                 <?php
                                                 $i = 1;
-                                                while ($data = mysqli_fetch_array($result)) { ?>
+                                                foreach($myArray as $data) {?>
                                                     <tr>
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $data['orderID']; ?></td>

@@ -68,6 +68,8 @@
                 <?php
                 include 'config/connection.php';
 
+                $myArray4 = array();
+
                 $orderID = "";
                 if (isset($_GET)) {
                     $orderID = $_GET['orderID'];
@@ -88,58 +90,61 @@
                 $query4 = "SELECT * FROM installment WHERE orderID='$orderID' GROUP BY id ASC ";
                 $result4 = mysqli_query($dbc, $query4);
 
+                $query5 = "SELECT * FROM installment WHERE orderID='$orderID' AND status='unpaid' GROUP BY id ASC ";
+                $result5 = mysqli_query($dbc, $query5);
+
                 ?>
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Order Data</h4>
                             </div>
                             <div class="card-body">
-                                <form class="mt-3 form-horizontal">
-                                    <div class="form-group row">
-                                        <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Nama</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['customerName'] ?>" disabled>
 
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">No HP</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['customerPhone'] ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Alamat</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['customerAddress'] ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Tanggal Order</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['dateOrder'] ?>" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Tanggal Selesai</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['dateFinish'] ?>" disabled>
-                                            <small id="name" class="form-text text-muted">Estimasi Selesai</small>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Status Pembayaran</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['statusPembayaran'] ?>" disabled>
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Nama</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['customerName'] ?>" disabled>
 
-                                        </div>
                                     </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">No HP</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['customerPhone'] ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Alamat</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['customerAddress'] ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Tanggal Order</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['dateOrder'] ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Tanggal Selesai</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['dateFinish'] ?>" disabled>
+                                        <small id="name" class="form-text text-muted">Estimasi Selesai</small>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Status Pembayaran</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= $rows['statusPembayaran'] ?>" disabled>
 
-                                    <?php 
-                                    if($rows['installment'] > 0){ ?>
+                                    </div>
+                                </div>
+
+                                <?php
+                                if ($rows['installment'] > 0) { ?>
                                     <div class="form-group row">
                                         <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Periode Cicilan</label>
                                         <div class="col-sm-8">
@@ -147,12 +152,14 @@
 
                                         </div>
                                     </div>
-                                    <?php }
-                                    ?>
-                                </form>
+                                <?php }
+                                ?>
+
                             </div>
                         </div>
                     </div>
+
+
                 </div>
 
                 <div class="row">
@@ -162,7 +169,25 @@
                                 <h4 class="card-title">Order Item List</h4>
                                 <h6 class="card-subtitle">Daftar Item Order</h6>
                                 <div class="table-responsive">
-                                    <?php if (mysqli_num_rows($result) >= 1) { ?>
+                                    <?php if (mysqli_num_rows($result) >= 1) {
+                                        while ($data = mysqli_fetch_array($result)) {
+                                            $myArray[] = $data;
+                                        } ?>
+
+                                        <form action="config/order/downloadExcelOrderDetail.php" method="POST" target="_blank">
+                                            <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
+                                            <input type="hidden" name="orderID" value="<?= $rows['orderID'] ?>" />
+                                            <input type="hidden" name="customerName" value="<?= $rows['customerName'] ?>" />
+                                            <input type="hidden" name="customerPhone" value="<?= $rows['customerPhone'] ?>" />
+                                            <input type="hidden" name="customerAddress" value="<?= $rows['customerAddress'] ?>" />
+                                            <input type="hidden" name="dateOrder" value="<?= $rows['dateOrder'] ?>" />
+                                            <input type="hidden" name="dateFinish" value="<?= $rows['dateFinish'] ?>" />
+                                            <input type="hidden" name="statusPembayaran" value="<?= $rows['statusPembayaran'] ?>" />
+                                            <input type="hidden" name="installment" value="<?= $rows['installment'] ?>" />
+
+                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                        </form>
+
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -181,7 +206,7 @@
                                                 $i = 1;
                                                 $total = 0;
                                                 $sumTotals = 0;
-                                                while ($data = mysqli_fetch_array($result)) {
+                                                foreach ($myArray as $data) {
                                                     $total = round($data['quantity']) * round($data['price']);
                                                     $sumTotals  = $sumTotals + $total; ?>
                                                     <tr>
@@ -302,8 +327,6 @@
                                     }
                                     ?>
 
-
-
                                 </div>
 
                             </div>
@@ -345,7 +368,7 @@
                                                 <?php } ?>
                                             </tbody>
                                         </table>
-                                    <?php }  else {
+                                    <?php } else {
                                         echo "<h4>Data pembayaran tidak ditemukan</h4>";
                                     } ?>
                                 </div>
@@ -359,7 +382,25 @@
                                 <h4 class="card-title">Data Cicilan</h4>
                                 <h6 class="card-subtitle">Detail Pembayaran dengan cicilan</h6>
                                 <div class="table-responsive">
-                                    <?php if (mysqli_num_rows($result4) >= 1) { ?>
+                                    <?php if (mysqli_num_rows($result4) >= 1) {
+                                        while ($data4 = mysqli_fetch_array($result4)) {
+                                            $myArray4[] = $data4;
+                                        }
+                                    ?>
+
+                                        <form action="config/order/downloadExcelOrderDetailCicilan.php" method="POST" target="_blank">
+                                            <input type="hidden" name="myArray4" value="<?php echo htmlentities(serialize($myArray4)); ?>" />
+                                            <input type="hidden" name="orderID" value="<?= $rows['orderID'] ?>" />
+                                            <input type="hidden" name="customerName" value="<?= $rows['customerName'] ?>" />
+                                            <input type="hidden" name="customerPhone" value="<?= $rows['customerPhone'] ?>" />
+                                            <input type="hidden" name="customerAddress" value="<?= $rows['customerAddress'] ?>" />
+                                            <input type="hidden" name="dateOrder" value="<?= $rows['dateOrder'] ?>" />
+                                            <input type="hidden" name="dateFinish" value="<?= $rows['dateFinish'] ?>" />
+                                            <input type="hidden" name="statusPembayaran" value="<?= $rows['statusPembayaran'] ?>" />
+                                            <input type="hidden" name="installment" value="<?= $rows['installment'] ?>" />
+
+                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                        </form>
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -373,7 +414,7 @@
                                             <tbody>
                                                 <?php
                                                 $k = 1;
-                                                while ($data4 = mysqli_fetch_array($result4)) { ?>
+                                                foreach ($myArray4 as $data4) { ?>
                                                     <tr>
                                                         <td><?= $k++ ?></td>
                                                         <!-- <td><?= $data4['orderID'] ?></td> -->
@@ -389,7 +430,35 @@
                                     }
                                     ?>
                                 </div>
+
+                                <h4 class="card-title">Bayar Cicilan</h4>
+                                <h6 class="card-subtitle">Pembayaran Cicilan</h6>
+
+                                <form action="config/order/updateInstallment.php" method="POST">
+                                    <select name="test" id="test">
+                                        <option disabled selected>Pilih Periode Pembayaran</option>
+                                        <?php
+                                        $l = 1;
+                                        while ($data5 = mysqli_fetch_array($result5)) { ?>
+                                            <option value="<?= $l; ?>"><?= $l; ?> Bulan</option>
+                                        <?php
+                                            $l++;
+                                        }
+                                        ?>
+                                    </select>
+                                    <!-- <label>Total dibayarakan : Rp. </label> -->
+                                    <span data-val="<?= round($data4['amount']) ?>"><?= round($data4['amount']) ?></span>
+                                    
+                                    <input type="hidden" name="amount" value="<?=round($data4['amount'])?>"/>
+                                    <input type="hidden" name="sumTotals" value="<?=round($sumTotals)?>"/>
+                                    <input type="hidden" name="orderID" value="<?= $orderID?>"/>
+                                    <button type="submit" name="submit">Update Pembayaran</button>
+                                </form>
+
                             </div>
+
+
+
                         </div>
                     </div>
 
@@ -431,6 +500,14 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <?php include 'include/footer_jquery.php'; ?>
+
+    <script type="text/javascript">
+        $('#test').change(function() {
+            var span = $(this).next('span');
+            span.text(span.data('val') * parseInt(this.value, 10))
+        })
+    </script>
+
 </body>
 
 </html>

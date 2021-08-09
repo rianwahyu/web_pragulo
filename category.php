@@ -105,9 +105,17 @@
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Kategori</button>
                                 <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6>
 
-
                                 <div class="table-responsive">
-                                    <?php if (mysqli_num_rows($result) >= 1) { ?>
+                                    <?php if (mysqli_num_rows($result) >= 1) {
+                                        while ($data = mysqli_fetch_array($result)) {
+                                            $myArray[] = $data;
+                                        } ?>
+                                        <form action="config/category/downloadExcelCategory.php" method="POST" target="_blank">
+                                            <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
+                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                        </form>
+
+
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -119,7 +127,7 @@
                                             <tbody>
                                                 <?php
                                                 $i = 1;
-                                                while ($data = mysqli_fetch_array($result)) { ?>
+                                                foreach ($myArray as $data) { ?>
                                                     <tr>
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $data['categoryName']; ?></td>
@@ -160,23 +168,23 @@
 
                                                         <div id="deleteCategory<?= $data['categoryID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fill-danger-modalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
-                                                                <form action="config/category/deleteCategory" method="POST" >
-                                                                <input type="hidden" name="categoryID" value="<?= $data['categoryID'] ?>" />
-                                                                <div class="modal-content modal-filled bg-danger">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title" id="fill-danger-modalLabel">Hapus Kategori
-                                                                        </h4>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                <form action="config/category/deleteCategory" method="POST">
+                                                                    <input type="hidden" name="categoryID" value="<?= $data['categoryID'] ?>" />
+                                                                    <div class="modal-content modal-filled bg-danger">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="fill-danger-modalLabel">Hapus Kategori
+                                                                            </h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>Apakah anda ingin menghapus kategori terpilih ?</p>
+
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                                                                            <button type="button" class="btn btn-outline-light">Hapus</button>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="modal-body">
-                                                                        <p>Apakah anda ingin menghapus kategori terpilih ?</p>
-                                                                    
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                                                        <button type="button" class="btn btn-outline-light">Hapus</button>
-                                                                    </div>
-                                                                </div>
                                                                 </form>
                                                                 <!-- /.modal-content -->
                                                             </div><!-- /.modal-dialog -->
@@ -218,7 +226,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <?php include 'include/footer.php';?>
+            <?php include 'include/footer.php'; ?>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -234,7 +242,7 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <?php include 'include/footer_jquery.php';?>
+    <?php include 'include/footer_jquery.php'; ?>
 </body>
 
 </html>

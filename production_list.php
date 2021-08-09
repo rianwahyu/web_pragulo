@@ -65,7 +65,7 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.productionID, a.orderID, b.itemName, a.dateIn, a.dateFinish, a.status FROM production a INNER JOIN item b ON a.itemID=b.itemID WHERE 1";
+                $query = "SELECT a.productionID, a.orderID, b.itemName, a.dateIn, a.dateFinish, a.status, c.customerName FROM production a INNER JOIN item b ON a.itemID=b.itemID INNER JOIN orders c ON a.orderID=c.orderID WHERE 1";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -79,13 +79,22 @@
                                 <h6 class="card-subtitle">Data barang yang dilakukan secara pesanan untuk di produksi</h6>
                                 
                                 <div class="table-responsive">
-                                    <?php if (mysqli_num_rows($result) >= 1) { ?>
+                                    <?php if (mysqli_num_rows($result) >= 1) {
+                                        while ($data = mysqli_fetch_array($result)) {
+                                            $myArray[] = $data;
+                                        } ?>
+
+                                        <form action="config/production/downloadExcelProductionList.php" method="POST" target="_blank">
+                                            <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
+                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                        </form>
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">ID Produksi</th>
                                                     <th scope="col">ID Order</th>
+                                                    <th scope="col">Nama Customer</th>
                                                     <th scope="col">Nama Barang</th>
                                                     <th scope="col">Jenis</th>
                                                     <th scope="col">Tgl Masuk</th>
@@ -98,13 +107,14 @@
                                                 <?php
                                                 $jenisMebel="";
                                                 $i = 1;
-                                                while ($data = mysqli_fetch_array($result)) {
+                                                foreach($myArray as $data) {
                                                     if($data['type']=="local")  {$jenisMebel="Kayu Local";}else  {$jenisMebel="Kayu Jati";} 
                                                     ?>
                                                     <tr>
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $data['productionID']; ?></td>
                                                         <td><?= $data['orderID']; ?></td>
+                                                        <td><?= $data['customerName']; ?></td>
                                                         <td><?= $data['itemName']; ?></td>
                                                         <td><?= $jenisMebel; ?></td>
                                                         <td><?= $data['dateIn']; ?></td>
