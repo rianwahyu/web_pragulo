@@ -108,7 +108,7 @@
 
                     <?php
 
-                    $query = "SELECT a.id as orderItemID, a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID  INNER JOIN item c ON a.itemID=c.itemID WHERE a.itemtype='onOrder' AND a.prod='0' ";
+                    $query = "SELECT a.id as orderItemID, a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID  INNER JOIN item c ON a.itemID=c.itemID WHERE a.itemtype='onOrder' AND a.prod='0' AND a.orderID='$key' ";
                     $result = mysqli_query($dbc, $query);
 
                     ?>
@@ -123,7 +123,7 @@
                                 if ($status == "true") {echo $successInsert;}
                                 ?>
 
-                                <?php if (mysqli_num_rows($result3) >= 1) {  ?>
+                                <?php if (mysqli_num_rows($result) >= 1) {  ?>
                                     <div class="table-responsive mt-4">
                                         <table class="table" style="width: 100%;">
                                             <thead class="bg-primary text-white">

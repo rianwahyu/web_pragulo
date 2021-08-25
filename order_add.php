@@ -78,7 +78,7 @@
                         <?php
 
                         include 'config/connection.php';
-                        $query = "SELECT a.*, b.itemName FROM temp_order a INNER JOIN item b ON a.itemID=b.itemID ";
+                        $query = "SELECT a.*, b.itemName FROM temp_order a INNER JOIN item b ON a.itemID=b.itemID WHERE a.user='$username'";
                         $result = mysqli_query($dbc, $query);
 
                         ?>
@@ -312,7 +312,10 @@
                                 <h4 class="modal-title" id="myModalLabel">Tambah Order</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             </div>
+
+                            
                             <div class="modal-body">
+                            <input type="hidden" name="username" value="<?php echo $username ?>" />
                                 <div class="form-group">
                                     <label>Nama Barang</label>
                                     <select class="form-control" name="itemID" id="itemID">

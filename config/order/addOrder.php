@@ -51,42 +51,54 @@ $query = $query . " ; ";
 
 
 if ($installment != 0) {
-    $customDate=0;
-    $dueDate="";
-    $amount=0;
+    $customDate = 0;
+    $dueDate = "";
+    $amount = 0;
     $query = $query . " INSERT INTO `installment`(`orderID`, `amount`, `dueDate`, `status`) VALUES ";
     $j = 0;
     $amount = $sumTotal / $installment;
     $amount = number_format((float)$amount, 2, '.', '');;
     //echo abs($amount);
-    for ($k=0; $k < $installment; $k++) {
-        
+    for ($k = 0; $k < $installment; $k++) {
+
         $customDate++;
-        $customDates = "+".$customDate. " month ";
+        $customDates = "+" . $customDate . " month ";
 
-        //echo $customDates;
-
-        $dueDate = date('Y-m-d',strtotime($customDates, strtotime($dateOrder))) . PHP_EOL;
+        $dueDate = date('Y-m-d', strtotime($customDates, strtotime($dateOrder))) . PHP_EOL;
 
         if ($k != 0)
-        $query .= ", ";
-        $query = $query . "('$orderID', '".$amount."', '".$dueDate."', 'unpaid' ) ";
+            $query .= ", ";
+        $query = $query . "('$orderID', '" . $amount . "', '" . $dueDate . "', 'unpaid' ) ";
         //$j++;
     }
 
     $query = $query . " ; ";
 }
 
+if ($installment == 0) {
+    $j = 0;
+    $query3 = "SELECT itemID, quantity FROM temp_order WHERE itemtype !='onOrder' ";
+    $result3 = mysqli_query($dbc, $query3);
+    if (mysqli_num_rows($result3)) {
+        $query = $query . " INSERT INTO `item_stock`(`itemID`, `type`, `qty`) VALUES ";
+        while ($data3 = mysqli_fetch_array($result3)) {
 
-//echo $query;
+            if ($j != 0)
+                $query .= ", ";
+            $query = $query . "('" . $data3['itemID'] . "', 'out' ,'" . $data3['quantity'] . "') ";
+            $j++;
+        }
+    }
+    $query = $query . " ; ";
+}
 
 $query = $query . " DELETE FROM `temp_order` WHERE 1 ; ";
 
-//echo $query;
+echo $query;
 if (mysqli_multi_query($dbc, $query)) {
     echo "<meta http-equiv='refresh' content='1 url=../../order_list'>";
-}else{
-    echo "<meta http-equiv='refresh' content='1 url=../../order_list'>";
+} else {
+    echo "Gagal";
 }
 
 function getIDOrder()

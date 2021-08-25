@@ -425,35 +425,37 @@
                                                 <?php } ?>
                                             </tbody>
                                         </table>
+
+                                        <h4 class="card-title">Bayar Cicilan</h4>
+                                        <h6 class="card-subtitle">Pembayaran Cicilan</h6>
+
+                                        <form action="config/order/updateInstallment.php" method="POST">
+                                            <select name="test" id="test">
+                                                <option disabled selected>Pilih Periode Pembayaran</option>
+                                                <?php
+                                                $l = 1;
+                                                while ($data5 = mysqli_fetch_array($result5)) { ?>
+                                                    <option value="<?= $l; ?>"><?= $l; ?> Bulan</option>
+                                                <?php
+                                                    $l++;
+                                                }
+                                                ?>
+                                            </select>
+                                            <!-- <label>Total dibayarakan : Rp. </label> -->
+                                            <span data-val="<?= round($data4['amount']) ?>"><?= round($data4['amount']) ?></span>
+
+                                            <input type="hidden" name="amount" value="<?= round($data4['amount']) ?>" />
+                                            <input type="hidden" name="sumTotals" value="<?= round($sumTotals) ?>" />
+                                            <input type="hidden" name="orderID" value="<?= $orderID ?>" />
+                                            <button type="submit" name="submit">Update Pembayaran</button>
+                                        </form>
                                     <?php } else {
                                         echo "<h4>Tidak ditemukan data cicilan / pembayaran dilakukan secara cash</h4>";
                                     }
                                     ?>
                                 </div>
 
-                                <h4 class="card-title">Bayar Cicilan</h4>
-                                <h6 class="card-subtitle">Pembayaran Cicilan</h6>
 
-                                <form action="config/order/updateInstallment.php" method="POST">
-                                    <select name="test" id="test">
-                                        <option disabled selected>Pilih Periode Pembayaran</option>
-                                        <?php
-                                        $l = 1;
-                                        while ($data5 = mysqli_fetch_array($result5)) { ?>
-                                            <option value="<?= $l; ?>"><?= $l; ?> Bulan</option>
-                                        <?php
-                                            $l++;
-                                        }
-                                        ?>
-                                    </select>
-                                    <!-- <label>Total dibayarakan : Rp. </label> -->
-                                    <span data-val="<?= round($data4['amount']) ?>"><?= round($data4['amount']) ?></span>
-                                    
-                                    <input type="hidden" name="amount" value="<?=round($data4['amount'])?>"/>
-                                    <input type="hidden" name="sumTotals" value="<?=round($sumTotals)?>"/>
-                                    <input type="hidden" name="orderID" value="<?= $orderID?>"/>
-                                    <button type="submit" name="submit">Update Pembayaran</button>
-                                </form>
 
                             </div>
 
