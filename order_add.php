@@ -79,6 +79,7 @@
 
                         include 'config/connection.php';
                         $query = "SELECT a.*, b.itemName FROM temp_order a INNER JOIN item b ON a.itemID=b.itemID WHERE a.user='$username'";
+                        //echo $query;
                         $result = mysqli_query($dbc, $query);
 
                         ?>

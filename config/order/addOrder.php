@@ -73,6 +73,8 @@ if ($installment != 0) {
     }
 
     $query = $query . " ; ";
+}else{
+    $query = $query. "INSERT INTO `payment`(`orderID`, `amount`, `status`) VALUES ('$orderID', '$sumTotal', 'success') ;";
 }
 
 if ($installment == 0) {
@@ -80,12 +82,12 @@ if ($installment == 0) {
     $query3 = "SELECT itemID, quantity FROM temp_order WHERE itemtype !='onOrder' ";
     $result3 = mysqli_query($dbc, $query3);
     if (mysqli_num_rows($result3)) {
-        $query = $query . " INSERT INTO `item_stock`(`itemID`, `type`, `qty`) VALUES ";
+        $query = $query . " INSERT INTO `item_stock`(`itemID`, `type`, `qty`, orderID) VALUES ";
         while ($data3 = mysqli_fetch_array($result3)) {
 
             if ($j != 0)
                 $query .= ", ";
-            $query = $query . "('" . $data3['itemID'] . "', 'out' ,'" . $data3['quantity'] . "') ";
+            $query = $query . "('" . $data3['itemID'] . "', 'out' ,'" . $data3['quantity'] . "', '$orderID') ";
             $j++;
         }
     }
@@ -94,7 +96,7 @@ if ($installment == 0) {
 
 $query = $query . " DELETE FROM `temp_order` WHERE 1 ; ";
 
-echo $query;
+//echo $query;
 if (mysqli_multi_query($dbc, $query)) {
     echo "<meta http-equiv='refresh' content='1 url=../../order_list'>";
 } else {

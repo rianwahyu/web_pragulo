@@ -1,11 +1,11 @@
 <?php
 
-include '../../include/head.php';
+//include '../../include/head.php';
 include '../connection.php';
 
 
 $orderItemID = $_POST['orderItemID'];
-$username = $_SESSION['username'];
+$username = $_POST['username'];
 $orderID=$_POST['orderID'];
 $itemID = $_POST['itemID'];
 $type = $_POST['type'];
@@ -15,14 +15,12 @@ $note = "Barang telah di konfirmasi";
 $curDate = date('Y-m-d H:i:s');
 
 $query = "";
-$query = $query. " INSERT INTO `production`(`productionID`, `orderID`, `itemID`, `dateIn`, `status`, 'type') VALUES ('$productionID', '$orderID', '$itemID', '$curDate', 'Dikonfirmasi', '$type'); ";
+$query = $query. " INSERT INTO `production`(`productionID`, `orderID`, `itemID`, `dateIn`, `status`, `type`) VALUES ('$productionID', '$orderID', '$itemID', '$curDate', 'Dikonfirmasi', '$type'); ";
 
 $query = $query. " INSERT INTO `timeline`(`productionID`, `note`, `username`, `date`) VALUES ('$productionID', '$note', '$username', '$curDate'); ";
 
 $query = $query. " UPDATE order_item SET prod='1' WHERE id='$orderItemID' ;";
-
-//echo $query;
-//echo $query;
+echo $query;
 if (mysqli_multi_query($dbc, $query)) {
     echo "<meta http-equiv='refresh' content='1 url=../../production_add?key=".$orderID."&status=true'>";
 }else{

@@ -1,6 +1,6 @@
 <?php
 
-include date_default_timezone_set('Asia/Jakarta');
+date_default_timezone_set('Asia/Jakarta');
 require_once "../../PHPExcel-1.8/Classes/PHPExcel.php";
 
 $myArray=unserialize($_POST['myArray']);

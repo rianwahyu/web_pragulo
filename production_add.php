@@ -80,7 +80,6 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <?php
-                include 'config/connection.php';
 
                 if (isset($_GET)) {
                     $key = $_GET['key'];
@@ -107,10 +106,12 @@
                 <div class="row">
 
                     <?php
+                    include 'config/connection.php';
 
                     $query = "SELECT a.id as orderItemID, a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID  INNER JOIN item c ON a.itemID=c.itemID WHERE a.itemtype='onOrder' AND a.prod='0' AND a.orderID='$key' ";
                     $result = mysqli_query($dbc, $query);
 
+                    //echo $query;
                     ?>
 
                     <div class="col-sm-12 col-md-10 col-lg-12">
@@ -120,10 +121,12 @@
                                 <h6 class="card-subtitle">Data barang yang akan di proses ke produksi</h6>
 
                                 <?php
-                                if ($status == "true") {echo $successInsert;}
+                                if ($status == "true") {
+                                    echo $successInsert;
+                                }
                                 ?>
 
-                                <?php if (mysqli_num_rows($result) >= 1) {  ?>
+                                <?php if (mysqli_num_rows($result) > 0) {  ?>
                                     <div class="table-responsive mt-4">
                                         <table class="table" style="width: 100%;">
                                             <thead class="bg-primary text-white">
@@ -143,86 +146,88 @@
                                                 $i = 1;
                                                 while ($data = mysqli_fetch_array($result)) { ?>
                                                     <tr>
-                                                        <td><?= $i++ ?></td>
-                                                        <td><?= $data['orderID'] ?></td>
-                                                        <td><?= $data['customerName'] ?></td>
-                                                        <td><?= $data['itemName'] ?></td>
-                                                        <td class="text-right"><?= Round($data['quantity']) ?></td>
-                                                        <td class="text-right"><?= rupiah(Round($data['price'])) ?></td>
-                                                        <!-- <td class="text-right"><?= rupiah($data['quantity'] * $data['price']) ?></td> -->
-                                                        <td><?= $data['keterangan'] ?></td>
+                                                        <td><?= $i++; ?></td>
+                                                        <td><?= $data['orderID']; ?></td>
+                                                        <td><?= $data['customerName']; ?></td>
+                                                        <td><?= $data['itemName']; ?></td>
+                                                        <td><?= $data['quantity']; ?></td>
+                                                        <td><?= rupiah(Round($data['price'])); ?></td>
+                                                        <td><?= $data['keterangan']; ?></td>
                                                         <td>
                                                             <a href="#" data-toggle="modal" data-target="#confirmProduction<?= $i; ?>">
                                                                 <button type="button" class="btn btn-success btn-rounded"><i class="fas fa-check"></i> Confirm</button>
                                                             </a>
+                                                        </td>
 
-                                                            <div id="confirmProduction<?= $i ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
+                                                        <div id="confirmProduction<?= $i ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
 
-                                                                    <form class="mt-2" action="config/production/addProduction.php" method="POST">
+                                                                <form class="mt-2" action="config/production/addProduction.php" method="POST">
 
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h4 class="modal-title" id="myModalLabel">Konfirmasi Produksi</h4>
-                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                <input type="text" value="<?= $username?>" name="username"/>
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="myModalLabel">Konfirmasi Produksi</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div class="form-group">
+                                                                                <label>ID Order</label>
+                                                                                <input type="textbox" class="form-control" name="orderID" value="<?= $data['orderID'] ?>" readonly />
                                                                             </div>
-                                                                            <div class="modal-body">
-                                                                                <div class="form-group">
-                                                                                    <label>ID Order</label>
-                                                                                    <input type="textbox" class="form-control" name="orderID" value="<?= $data['orderID'] ?>" readonly />
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <label>Nama Customer</label>
-                                                                                    <input type="text" class="form-control" name="customerName" value="<?= $data['customerName'] ?>" readonly />
-                                                                                </div>
+                                                                            <div class="form-group">
+                                                                                <label>Nama Customer</label>
+                                                                                <input type="text" class="form-control" name="customerName" value="<?= $data['customerName'] ?>" readonly />
+                                                                            </div>
 
-                                                                                <div class="form-group">
-                                                                                    <label hidden>Item ID</label>
-                                                                                    <input type="hidden" class="form-control" name="itemID" value="<?= $data['itemID'] ?>" />
-                                                                                </div>
+                                                                            <div class="form-group">
+                                                                                <label hidden>Item ID</label>
+                                                                                <input type="hidden" class="form-control" name="itemID" value="<?= $data['itemID'] ?>" />
+                                                                            </div>
 
-                                                                                <div class="form-group">
-                                                                                    <label hidden>Item ID</label>
-                                                                                    <input type="hidden" class="form-control" name="orderItemID" value="<?= $data['orderItemID'] ?>" />
-                                                                                </div>
+                                                                            <div class="form-group">
+                                                                                <label hidden>Item ID</label>
+                                                                                <input type="hidden" class="form-control" name="orderItemID" value="<?= $data['orderItemID'] ?>" />
+                                                                            </div>
 
-                                                                                <div class="form-group">
+                                                                            <div class="form-group">
                                                                                 <label>Jenis Mebel</label>
                                                                                 <select class="form-control" name="type">
-                                                                                    <option selected disabled>Pilh Jenis Mebe</option>
+                                                                                    <option selected disabled>Pilh Jenis Mebel</option>
                                                                                     <option value="local">Kayu Lokal</option>
                                                                                     <option value="jati">Kayu Jati</option>
                                                                                 </select>
-                                                                                </div>
+                                                                            </div>
 
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                                                                <button type="submit" class="btn btn-success">Konfirmasi</button>
-                                                                            </div>
                                                                         </div>
-                                                                    </form>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                                                                            <button type="submit" class="btn btn-success">Konfirmasi</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
 
-                                                                </div>
                                                             </div>
-                                                        </td>
+                                                        </div>
                                                     </tr>
                                                 <?php }
 
-                                                function rupiah($angka)
-                                                {
 
-                                                    $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
-                                                    return $hasil_rupiah;
-                                                }
                                                 ?>
                                             </tbody>
                                         </table>
                                     </div>
                                 <?php
-                                }else{
+                                } else {
                                     echo "<h4>Tidak ada Data</h4>";
-                                } ?>
+                                }
+                                function rupiah($angka)
+                                {
+
+                                    $hasil_rupiah = "Rp " . number_format($angka, 0, ',', '.');
+                                    return $hasil_rupiah;
+                                }
+                                ?>
 
                             </div>
                         </div>
