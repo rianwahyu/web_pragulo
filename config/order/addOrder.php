@@ -2,6 +2,7 @@
 
 include '../connection.php';
 
+$username = $_POST['username'];
 $installment = $_POST['installment'];
 $customerName = $_POST['customerName'];
 $customerAddress = $_POST['customerAddress'];
@@ -27,19 +28,19 @@ $query = "";
 
 $query = $query . " INSERT INTO `orders`(`orderID`, `type`, `installment`, `status`, `customerName`, `customerAddress`, `customerPhone`, `dateOrder`, `dateFinish`, statusPembayaran) VALUES ('$orderID', '$type', '$installment', 'Proses', '$customerName', '$customerAddress', '$customerPhone', '$dateOrder', '$dateFinish','$statusPembayaran'); ";
 
-$query = $query . "INSERT INTO `order_item`(`orderID`, `itemID`, `quantity`, `price`, `itemtype`, `keterangan`) VALUES ";
+$query = $query . "INSERT INTO `order_item`(`orderID`, `itemID`, `quantity`, `price`, `itemtype`, `keterangan`, image) VALUES ";
 
 $sumTotal = 0;
 $total = 0;
 $i = 0;
-$query2 = "SELECT * FROM temp_order WHERE 1";
+$query2 = "SELECT * FROM temp_order WHERE user='$username'";
 $result2 = mysqli_query($dbc, $query2);
 if (mysqli_num_rows($result2)) {
     while ($data2 = mysqli_fetch_array($result2)) {
 
         if ($i != 0)
             $query .= ", ";
-        $query = $query . "('$orderID', '" . $data2['itemID'] . "', '" . $data2['quantity'] . "', '" . $data2['price'] . "', '" . $data2['itemtype'] . "', '" . $data2['keterangan'] . "' ) ";
+        $query = $query . "('$orderID', '" . $data2['itemID'] . "', '" . $data2['quantity'] . "', '" . $data2['price'] . "', '" . $data2['itemtype'] . "', '" . $data2['keterangan'] . "', '".$data2['image']."' ) ";
         $i++;
 
         $total = round($data2['quantity']) * round($data2['price']);
@@ -69,7 +70,7 @@ if ($installment != 0) {
         if ($k != 0)
             $query .= ", ";
         $query = $query . "('$orderID', '" . $amount . "', '" . $dueDate . "', 'unpaid' ) ";
-        //$j++;
+        
     }
 
     $query = $query . " ; ";
@@ -79,7 +80,7 @@ if ($installment != 0) {
 
 if ($installment == 0) {
     $j = 0;
-    $query3 = "SELECT itemID, quantity FROM temp_order WHERE itemtype !='onOrder' ";
+    $query3 = "SELECT itemID, quantity FROM temp_order WHERE itemtype !='onOrder' AND user='$username' ";
     $result3 = mysqli_query($dbc, $query3);
     if (mysqli_num_rows($result3)) {
         $query = $query . " INSERT INTO `item_stock`(`itemID`, `type`, `qty`, orderID) VALUES ";
@@ -94,7 +95,7 @@ if ($installment == 0) {
     $query = $query . " ; ";
 }
 
-$query = $query . " DELETE FROM `temp_order` WHERE 1 ; ";
+$query = $query . " DELETE FROM `temp_order` WHERE user='$username' ; ";
 
 //echo $query;
 if (mysqli_multi_query($dbc, $query)) {

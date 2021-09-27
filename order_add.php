@@ -102,6 +102,7 @@
                                                     <th class="text-center">Harga Satuan</th>
                                                     <th class="text-center">Jumlah Rp.</th>
                                                     <th class="text-center">Keterangan</th>
+                                                    <th class="text-center">Foto/Gambar</th>
                                                     <th class="text-center">Opsi</th>
                                                 </tr>
                                             </thead>
@@ -116,6 +117,8 @@
                                                         <td class="text-right"><?= rupiah(Round($data['price'])) ?></td>
                                                         <td class="text-right"><?= rupiah($data['quantity'] * $data['price']) ?></td>
                                                         <td><?= $data['keterangan'] ?></td>
+                                                        <td><img src="storage/order/<?= $data['image']?>" width="200px;"/>
+                                                            </td>
                                                         <td>
                                                             <a href="#" data-toggle="modal" data-target="#updateOrder<?= $data['id']; ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>
@@ -285,6 +288,8 @@
                                         </div>
                                     </div>
 
+                                    <input type="hidden" name="username" value="<?= $username?>"/>
+
                                     <div class="col text-right mt-8">
                                         <button type="submit float-right" class="btn btn-primary">Proses Order</button>
                                     </div>
@@ -303,11 +308,11 @@
                     <?php
                     include 'config/connection.php';
 
-                    $querys = "SELECT * FROM item ";
+                    $querys = "SELECT * FROM category ";
                     $results = mysqli_query($dbc, $querys);
 
                     ?>
-                    <form class="mt-2" action="config/order/addTempOrder" method="POST">
+                    <form class="mt-2" action="config/order/addTempOrder" method="POST" enctype="multipart/form-data">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="myModalLabel">Tambah Order</h4>
@@ -318,13 +323,17 @@
                             <div class="modal-body">
                             <input type="hidden" name="username" value="<?php echo $username ?>" />
                                 <div class="form-group">
-                                    <label>Nama Barang</label>
-                                    <select class="form-control" name="itemID" id="itemID">
-                                        <option selected>Pilih Barang</option>
+                                    <label>Kategori</label>
+                                    <select class="form-control" name="categoryID" id="categoryID">
+                                        <option selected>Pilih Kategori</option>
                                         <?php while ($datas = mysqli_fetch_array($results)) { ?>
-                                            <option value="<?= $datas['itemID'] ?>"><?= $datas['itemName'] ?></option>
+                                            <option value="<?= $datas['categoryID'] ?>"><?= $datas['categoryName'] ?></option>
                                         <?php } ?>
                                     </select>
+
+                                    <div id="itemID">
+
+                                    </div>
 
                                     <div id="itemDetail">
 
@@ -364,8 +373,23 @@
     <?php include 'include/footer_jquery.php' ?>
     <script type="text/javascript">
         $(document).ready(function() {
+            $("#itemID").hide();
+            $('body').on("change", "#categoryID", function() {
+                var id = $(this).val();
+                var data = "id=" + id;
+                $.ajax({
+                    type: 'POST',
+                    url: "get_category.php",
+                    data: data,
+                    success: function(hasil) {
+                        $("#itemID").html(hasil);
+                        $("#itemID").show();
+                    }
+                });
+            });
+
             $("#itemDetail").hide();
-            $('body').on("change", "#itemID", function() {
+            $('body').on("change", "#itemIDs", function() {
                 var id = $(this).val();
                 var data = "id=" + id;
                 $.ajax({

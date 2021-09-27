@@ -2,7 +2,7 @@
 
 include '../connection.php';
 
-$itemID = $_POST['itemID'];
+$itemID = $_POST['itemIDs'];
 $quantity = $_POST['quantity'];
 $keterangan = $_POST['keterangan'];
 $user = $_POST['username'];

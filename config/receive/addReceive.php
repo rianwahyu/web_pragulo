@@ -30,7 +30,7 @@ if (mysqli_num_rows($result2) >=1) {
     $query = $query . " ; ";
 
 
-    $query = $query . " INSERT INTO `item_stock`(`itemID`, `type`, `qty`, orderID) VALUES ";
+    $query = $query . " INSERT INTO `item_stock`(`itemID`, `type`, `qty`, receiveID) VALUES ";
 
     while ($data3 = mysqli_fetch_array($result3)) {
 

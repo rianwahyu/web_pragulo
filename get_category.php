@@ -11,7 +11,7 @@ if (mysqli_num_rows($result) >= 1) { ?>
     <div class="form-group mt-4">
         <label>Pilih Barang</label>
 
-        <select class="form-control" name="itemID" id="itemID">
+        <select class="form-control" name="itemIDs" id="itemIDs">
             <option selected>Pilih Barang</option>
 
             <?php

@@ -70,7 +70,11 @@
                     $end = $_GET['end'];
                 }
 
-                $query = "SELECT a.itemID, b.itemName, SUM(a.qty) as totStok FROM item_stock a INNER JOIN item b ON a.itemID=b.itemID  WHERE 1 GROUP BY a.itemID";
+                $query = "SELECT *, SUM(totStok) as totalStok FROM (
+                SELECT a.itemID, b.itemName, SUM(a.qty) as totStok FROM item_stock a INNER JOIN item b ON a.itemID=b.itemID  WHERE a.type='in' GROUP BY a.itemID
+                UNION ALL
+                SELECT a.itemID, b.itemName, SUM(a.qty*-1) as totStok FROM item_stock a INNER JOIN item b ON a.itemID=b.itemID  WHERE a.type='out' GROUP BY a.itemID
+                ) a GROUP BY itemID";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -137,10 +141,10 @@
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $data['itemID']; ?></td>
                                                         <td><?= $data['itemName']; ?></td>
-                                                        <td><?= $data['totStok']; ?></td>
+                                                        <td><?= $data['totalStok']; ?></td>
                                                     </tr>
                                                 <?php
-                                                    $grandTotal = $grandTotal + $data['total'];
+                                                    //$grandTotal = $grandTotal + $data['total'];
                                                 }
 
 
