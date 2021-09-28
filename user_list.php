@@ -78,7 +78,7 @@
 
                                     <div class="form-group mt-2">
                                         <label>Username</label>
-                                        <input type="text" class="form-control" name="username" autocomplete="off" reqired>
+                                        <input type="text" class="form-control" name="username" autocomplete="off" reqired maxlength="10">
                                     </div>
 
                                     <!-- <div class="form-group mt-2">
@@ -87,9 +87,9 @@
                                     </div> -->
 
                                     <div class="form-group mt-2">
-                                        <label>Role</label>
+                                        <label>Jabatan</label>
                                         <select class="form-control" name="role">
-                                            <option>Pilih Role / Jabatan</option>
+                                            <option> Pilih Jabatan</option>
                                             <option value="Karyawan">Karyawan</option>
                                         </select>
                                     </div>
@@ -115,7 +115,7 @@
                 ?>
 
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-sm-12 col-md-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Daftar Karyawan</h4>
@@ -131,7 +131,7 @@
                                                     <th scope="col">#</th>
                                                     <th scope="col">Nama Lengkap</th>
                                                     <th scope="col">Username</th>
-                                                    <th scope="col">Role</th>
+                                                    <th scope="col">Jabatan</th>
                                                     <th scope="col">Hasil Kerja</th>
                                                     <th scope="col">Opsi</th>
                                                 </tr>

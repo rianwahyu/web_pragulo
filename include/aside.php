@@ -11,15 +11,80 @@
                 <li class="sidebar-item"> <a class="sidebar-link" href="category" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Kategori
                         </span></a>
                 </li>
-                <li class="sidebar-item"> <a class="sidebar-link" href="master_item" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Master Barang
+                <li class="sidebar-item"> <a class="sidebar-link" href="master_item" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang
                         </span></a>
                 </li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="user_list" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">List Karyawan
+                <li class="sidebar-item"> <a class="sidebar-link" href="user_list" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Karyawan
                         </span></a>
                 </li>
 
-                <li class="nav-small-cap"><span class="hide-menu">Transaksi</span></li>
+                <li class="nav-small-cap"><span class="hide-menu">Pembelian</span></li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="#" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang Mebel
+                        </span></a>
+                </li>
+                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang Non Mebel
+                        </span></a>
+                </li>
+
+
+                <li class="nav-small-cap"><span class="hide-menu">Penjualan</span></li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Penjualan
+                        </span></a>
+                </li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">List Penjualan
+                        </span></a>
+                </li>
+
+                <li class="nav-small-cap"><span class="hide-menu">Produksi</span></li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Produksi
+                        </span></a>
+                </li>
+
+                <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">List Produksi</span></a>
+                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Perakitan
+                                </span></a>
+                        </li>
+                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Pengamplasan
+                                </span></a>
+                        </li>
+
+                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Penyemprotan
+                                </span></a>
+                        </li>
+
+                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Pemasangan Jog
+                                </span></a>
+                        </li>
+
+                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Finishing
+                                </span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-small-cap"><span class="hide-menu">Persediaan</span></li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Gudang 
+                        </span></a>
+                </li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Toko
+                        </span></a>
+                </li>
+
+                <li class="nav-small-cap"><span class="hide-menu">Laporan</span></li>
+
+        
+
+
+
+                <!-- <li class="nav-small-cap"><span class="hide-menu">Transaksi</span></li>
 
                 <li class="sidebar-item"> <a class="sidebar-link" href="receive" aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">Receive
                         </span></a>
@@ -65,7 +130,7 @@
                                 </span></a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
 
             </ul>
         </nav>
