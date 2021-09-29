@@ -43,7 +43,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="index.html" class="text-muted">Pembelian</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Barang Mebel</li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Barang Non Mebel</li>
                                 </ol>
                             </nav>
                         </div>
@@ -65,7 +65,7 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.id, a.itemID, b.itemName, b.itemDescription, a.quantity, a.status, a.datePurchase, a.type FROM purchase a INNER JOIN item b ON a.itemID=b.itemID  WHERE a.type='mebel'  ";
+                $query = "SELECT a.id, a.itemID, b.itemName, b.itemDescription, a.quantity, a.status, a.datePurchase, a.type FROM purchase a INNER JOIN item b ON a.itemID=b.itemID  WHERE a.type='non mebel'  ";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -76,7 +76,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Pembelian</h4>
-                                <h6 class="card-subtitle">Pembelian Barang Mebel</h6>
+                                <h6 class="card-subtitle">Pembelian Barang Non Mebel</h6>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Pembelian</button>
                                 <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6>
 
@@ -256,7 +256,7 @@
 
                                     </div>
 
-                                    <input type="hidden" name="type" value="mebel" />
+                                    <input type="hidden" name="type" value="non mebel" />
                                 </div>
 
 

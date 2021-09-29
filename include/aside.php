@@ -8,9 +8,9 @@
                 <li class="list-divider"></li>
                 <li class="nav-small-cap"><span class="hide-menu">Master Data</span></li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="category" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Kategori
+                <!-- <li class="sidebar-item"> <a class="sidebar-link" href="category" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Kategori
                         </span></a>
-                </li>
+                </li> -->
                 <li class="sidebar-item"> <a class="sidebar-link" href="master_item" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang
                         </span></a>
                 </li>
@@ -21,10 +21,10 @@
 
                 <li class="nav-small-cap"><span class="hide-menu">Pembelian</span></li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="#" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang Mebel
+                <li class="sidebar-item"> <a class="sidebar-link" href="purchase_furniture" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang Mebel
                         </span></a>
                 </li>
-                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang Non Mebel
+                <li class="sidebar-item"> <a class="sidebar-link" href="purchase_non_furniture" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang Non Mebel
                         </span></a>
                 </li>
 
