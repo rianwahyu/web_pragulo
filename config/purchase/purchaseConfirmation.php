@@ -10,9 +10,9 @@ if (!empty($row)) {
     $querys = "";
     $querys = $querys . "UPDATE purchase SET status='Available' WHERE id='$id' ;";
     if ($row['type'] == "mebel") {
-        $querys = $querys . "INSERT INTO `warehouse_stock`(`itemID`, `quantity`, `type`, `remark`, `dateStock`) VALUES ('" . $row['itemID'] . "', '" . $row['quantity'] . "', 'in', 'Stok dari Pembelian ID :  $id ', NOW() ) ; ";
+        $querys = $querys . "INSERT INTO `warehouse_stock`(`itemID`, `quantity`, `type`, `remark`, `dateStock`, itemType) VALUES ('" . $row['itemID'] . "', '" . $row['quantity'] . "', 'in', 'Stok dari Pembelian ID :  $id ', NOW(), '".$row['type']."' ) ; ";
     }else{
-        $querys = $querys . "INSERT INTO `store_stock`(`itemID`, `quantity`, `type`, `remark`, `dateStock`) VALUES ('" . $row['itemID'] . "', '" . $row['quantity'] . "', 'in', 'Stok dari Pembelian Non Mebel ID :  $id ', NOW() ) ; ";
+        $querys = $querys . "INSERT INTO `store_stock`(`itemID`, `quantity`, `type`, `remark`, `dateStock`, itemType) VALUES ('" . $row['itemID'] . "', '" . $row['quantity'] . "', 'in', 'Stok dari Pembelian Non Mebel ID :  $id ', NOW(), '".$row['type']."'  ) ; ";
     }
     
 

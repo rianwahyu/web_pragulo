@@ -22,4 +22,6 @@
     <script src="src/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="src/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="src/dist/js/pages/dashboards/dashboard1.min.js"></script>
+    <script src="src/dist/js/pages/dashboards/dashboard1.min.js"></script>    
+    <!-- <script src="src/assets/libs/select2/select2.full.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

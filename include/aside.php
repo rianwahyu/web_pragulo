@@ -31,7 +31,7 @@
 
                 <li class="nav-small-cap"><span class="hide-menu">Penjualan</span></li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Penjualan
+                <li class="sidebar-item"> <a class="sidebar-link" href="order_add" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Penjualan
                         </span></a>
                 </li>
 

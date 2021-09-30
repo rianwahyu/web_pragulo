@@ -65,7 +65,11 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.id, a.itemID, b.itemName, b.itemDescription, a.quantity, a.status, a.datePurchase, a.type FROM purchase a INNER JOIN item b ON a.itemID=b.itemID  WHERE a.type='non mebel'  ";
+                $query = "SELECT a.id, a.itemID, b.itemName, b.itemDescription, a.quantity, a.status, a.datePurchase, a.type, c.categoryName 
+                FROM purchase a 
+                INNER JOIN item b ON a.itemID=b.itemID  
+                INNER JOIN category c ON b.categoryID = c.categoryID
+                WHERE a.type='non mebel'  ";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -93,8 +97,8 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
+                                                    <th scope="col">Jenis Barang</th>
                                                     <th scope="col">Nama Barang</th>
-                                                    <th scope="col">Deskripsi</th>
                                                     <th scope="col">Jumlah</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Tanggal</th>
@@ -230,7 +234,7 @@
                     <?php
                     include 'config/connection.php';
 
-                    $querys = "SELECT itemID, itemName FROM item ";
+                    $querys = "SELECT categoryID, categoryName FROM category ";
                     $results = mysqli_query($dbc, $querys);
 
                     ?>
@@ -243,21 +247,25 @@
 
                             <div class="modal-body">
                                 <input type="hidden" name="username" value="<?php echo $username ?>" />
+
                                 <div class="form-group">
-                                    <label>Nama Barang</label>
-                                    <select class="form-control" name="itemID" id="itemID">
-                                        <option selected>Pilih Barang</option>
+                                    <label>Jenis Barang</label>
+                                    <select class="js-example-basic-single2" name="categoryID" id="categoryID" style="width: 100%;">
                                         <?php while ($datas = mysqli_fetch_array($results)) { ?>
-                                            <option value="<?= $datas['itemID'] ?>"><?= $datas['itemName'] ?></option>
+                                            <option value="<?= $datas['categoryID'] ?>"><?= $datas['categoryName'] ?></option>
                                         <?php } ?>
                                     </select>
-
-                                    <div id="itemDetail">
-
-                                    </div>
-
-                                    <input type="hidden" name="type" value="non mebel" />
                                 </div>
+
+                                <div id="itemID">
+
+                                </div>
+
+                                <div id="itemDetail">
+
+                                </div>
+
+                                <input type="hidden" name="type" value="non mebel" />
 
 
                             </div>
@@ -296,6 +304,20 @@
     <?php include 'include/footer_jquery.php'; ?>
 
     <script type="text/javascript">
+        $("#itemID").hide();
+        $('body').on("change", "#categoryID", function() {
+            var id = $(this).val();
+            var data = "id=" + id;
+            $.ajax({
+                type: 'POST',
+                url: "get_category.php",
+                data: data,
+                success: function(hasil) {
+                    $("#itemID").html(hasil);
+                    $("#itemID").show();
+                }
+            });
+        });
         $("#itemDetail").hide();
         $('body').on("change", "#itemID", function() {
             var id = $(this).val();
@@ -311,14 +333,16 @@
             });
         });
 
-        function isNumberKey(evt) {
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode != 46 && charCode > 31 &&
-                (charCode < 48 || charCode > 57))
-                return false;
-            return true;
-        }
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+        });
+
+        $(document).ready(function() {
+            $('.js-example-basic-single2').select2();
+        });
     </script>
+
+    <script src="src/customjs.js"></script>
 </body>
 
 </html>

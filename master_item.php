@@ -74,7 +74,7 @@
                         <form class="mt-2" action="config/item/addItem" method="POST">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel">Tambah Kategori</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Tambah Barang</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 </div>
                                 <div class="modal-body">
@@ -89,9 +89,9 @@
                                     </div>
 
                                     <div class="form-group mt-2">
-                                        <label>Deskripsi Barang</label>
-                                        <select class="form-control" name="categoryID">
-                                            <option selected disabled>Pilih Kategori</option>
+                                        <label>Jenis Barang</label>
+                                        <select class="form-control js-example-basic-single" name="categoryID" style="width: 100%;">
+
                                             <?php while ($data = mysqli_fetch_array($result)) { ?>
                                                 <option value="<?= $data['categoryID'] ?>"><?= $data['categoryName'] ?></option>
                                             <?php } ?>
@@ -101,7 +101,7 @@
 
                                     <div class="form-group mt-2">
                                         <label>Harga</label>
-                                        <input type="number" class="form-control" name="price">
+                                        <input type="number" class="form-control" name="price" onkeypress="return isNumberKey(event)">
                                     </div>
 
                                 </div>
@@ -208,7 +208,6 @@
                                                                                     <?php while ($datas = mysqli_fetch_array($results)) { ?>
                                                                                         <option value="<?= $datas['categoryID'] ?>" <?php if ($datas['categoryID'] == $data['categoryID']) echo 'selected="selected"'; ?>><?= $datas['categoryName'] ?></option>
                                                                                     <?php } ?>
-
                                                                                 </select>
                                                                             </div>
 
@@ -316,6 +315,15 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <?php include 'include/footer_jquery.php'; ?>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+        });
+    </script>
+
+    <script src="src/customjs.js"></script>
+
 </body>
 
 </html>
