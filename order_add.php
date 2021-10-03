@@ -73,8 +73,6 @@
                 <form action="config/order/addOrder" method="POST">
                     <div class="row">
 
-
-
                         <?php
 
                         include 'config/connection.php';

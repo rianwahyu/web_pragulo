@@ -13,14 +13,16 @@ $rows = mysqli_fetch_array($result); ?>
         <label>Deskripsi</label>
         <input type="text" class="form-control" value="<?= $rows['itemDescription'] ?>" disabled />
     </div>
-    <div class="form-group">
-        <label>Jumlah</label>
-        <input type="text" class="form-control" name="quantity" onkeypress="return isNumberKey(event)"  />
-    </div>
 
-    <div class="form-group">
-        <label>Harga</label>
-        <input type="text" class="form-control" value="<?= $rows['price'] ?>" name="price" onkeypress="return isNumberKey(event)"  />
+    <div class="form-row">
+        <div class="col">
+            <label>Harga</label>
+            <input type="text" class="form-control" value="<?= $rows['price'] ?>" name="price" onkeypress="return isNumberKey(event)" placeholder="Harga">
+        </div>
+        <div class="col">
+            <label>Jumlah</label>
+            <input type="text" class="form-control" name="quantity" onkeypress="return isNumberKey(event)" placeholder="Jumlah">
+        </div>
     </div>
 
     <div class="form-group">
@@ -28,16 +30,16 @@ $rows = mysqli_fetch_array($result); ?>
         <select class="form-control" name="itemtype">
             <option>Pilih Jenis Barang</option>
             <option value="local">Kayu Local</option>
-            <option value="jati">Kayu Jati</option>            
+            <option value="jati">Kayu Jati</option>
         </select>
     </div>
 
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label>Upload Gambar (Opsional)</label>
         <fieldset class="form-group">
-            <input type="file" accept="image/*" name="media" >
+            <input type="file" accept="image/*" name="media">
         </fieldset>
-    </div>
+    </div> -->
 
     <div class="form-group">
         <label>Keterangan</label>
