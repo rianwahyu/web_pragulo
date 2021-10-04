@@ -28,7 +28,7 @@ $query = "";
 
 $query = $query . " INSERT INTO `orders`(`orderID`, `type`, `installment`, `status`, `customerName`, `customerAddress`, `customerPhone`, `dateOrder`, `dateFinish`, statusPembayaran) VALUES ('$orderID', '$type', '$installment', 'Proses', '$customerName', '$customerAddress', '$customerPhone', '$dateOrder', '$dateFinish','$statusPembayaran'); ";
 
-$query = $query . "INSERT INTO `order_item`(`orderID`, `itemID`, `quantity`, `price`, `itemtype`, `keterangan`, image) VALUES ";
+$query = $query . "INSERT INTO `order_item`(`orderID`, `itemID`, `quantity`, `price`, `itemtype`, `keterangan`, image, itemCat) VALUES ";
 
 $sumTotal = 0;
 $total = 0;
@@ -40,7 +40,7 @@ if (mysqli_num_rows($result2)) {
 
         if ($i != 0)
             $query .= ", ";
-        $query = $query . "('$orderID', '" . $data2['itemID'] . "', '" . $data2['quantity'] . "', '" . $data2['price'] . "', '" . $data2['itemtype'] . "', '" . $data2['keterangan'] . "', '".$data2['image']."' ) ";
+        $query = $query . "('$orderID', '" . $data2['itemID'] . "', '" . $data2['quantity'] . "', '" . $data2['price'] . "', '" . $data2['itemtype'] . "', '" . $data2['keterangan'] . "', '".$data2['image']."', '".$data2['itemCat']."' ) ";
         $i++;
 
         $total = round($data2['quantity']) * round($data2['price']);

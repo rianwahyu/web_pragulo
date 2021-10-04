@@ -35,13 +35,13 @@
                         </span></a>
                 </li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">List Penjualan
+                <li class="sidebar-item"> <a class="sidebar-link" href="order_list" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">List Penjualan
                         </span></a>
                 </li>
 
                 <li class="nav-small-cap"><span class="hide-menu">Produksi</span></li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Produksi
+                <li class="sidebar-item"> <a class="sidebar-link" href="#" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Produksi
                         </span></a>
                 </li>
 
@@ -70,13 +70,24 @@
 
                 <li class="nav-small-cap"><span class="hide-menu">Persediaan</span></li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Gudang 
+                <li class="sidebar-item"> <a class="sidebar-link" href="master_gudang" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Gudang 
                         </span></a>
                 </li>
-
-                <li class="sidebar-item"> <a class="sidebar-link" href="#t" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Toko
-                        </span></a>
-                </li>
+        
+                <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                                aria-expanded="false"><i data-feather="crosshair" class="feather-icon"></i><span
+                                    class="hide-menu">Toko</span></a>
+                            <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item"><a href="master_store_furniture" class="sidebar-link"><span
+                                            class="hide-menu">Barang Mebel</span></a>
+                                </li>
+                                <li class="sidebar-item"><a href="master_store_nonfurniture" class="sidebar-link"><span
+                                            class="hide-menu">Barang Non Mebel</span></a>
+                                </li>
+                                
+                                
+                            </ul>
+                        </li>
 
                 <li class="nav-small-cap"><span class="hide-menu">Laporan</span></li>
 

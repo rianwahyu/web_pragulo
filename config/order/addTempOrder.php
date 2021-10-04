@@ -16,7 +16,7 @@ $loc = "../../storage/order/";
 $file_extension = pathinfo($location, PATHINFO_EXTENSION);
 $file_extension = strtolower($file_extension);
 
-echo $location;
+//echo $location;
 
 if (empty($filename)) {
     echo "tdk ada";

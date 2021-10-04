@@ -38,59 +38,66 @@
 
             <div class="container-fluid">
 
+
+
+
                 <div class="row">
                     <div class="col-sm-12 col-md-10 col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Form Data Pesanan</h4>
-                                <h6 class="card-subtitle">Mohon mengisi form di bawah ini</h6>
+                        <form method="POST" action="config/order/addOrder.php" enctype="multipart/form-data">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Form Data Pesanan</h4>
+                                    <h6 class="card-subtitle">Mohon mengisi form di bawah ini</h6>
 
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Nama Pelanggan</label>
-                                            <input type="text" class="form-control" name="customerName" required>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Nama Pelanggan</label>
+                                                <input type="text" class="form-control" name="customerName" required>
+                                            </div>
+
+                                            <div class="form-group mt-4">
+                                                <label>Alamat</label>
+                                                <input type="text" class="form-control" name="customerAddress">
+                                            </div>
+
+                                            <div class="form-group mt-4">
+                                                <label>No HP</label>
+                                                <input type="text" class="form-control" name="customerPhone">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group mt-4">
-                                            <label>Alamat</label>
-                                            <input type="text" class="form-control" name="customerAddress">
-                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Tanggal Pesan</label>
+                                                <input type="date" class="form-control" name="dateOrder" required>
+                                            </div>
 
-                                        <div class="form-group mt-4">
-                                            <label>No HP</label>
-                                            <input type="text" class="form-control" name="customerPhone">
+                                            <div class="form-group mt-4">
+                                                <label>Tanggal Selesai (Estimasi)</label>
+                                                <input type="date" class="form-control" name="dateFinish">
+                                            </div>
+
+                                            <div class="form-group mt-4">
+                                                <label>Metode Pembayaran</label>
+                                                <select name="installment" class="form-control">
+                                                    <option selected disabled>Pilih Metode Pembayaran</option>
+                                                    <option value="0">Cash</option>
+                                                    <option value="3">Cicilan 3 Bulan</option>
+                                                    <option value="6">Cicilan 6 Bulan</option>
+                                                    <option value="12">Cicilan 12 Bulan</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Tanggal Pesan</label>
-                                            <input type="date" class="form-control" name="dateOrder" required>
-                                        </div>
+                                    <input type="hidden" name="username" value="<?= $username ?>" />
 
-                                        <div class="form-group mt-4">
-                                            <label>Tanggal Selesai (Estimasi)</label>
-                                            <input type="date" class="form-control" name="dateFinish">
-                                        </div>
-
-                                        <div class="form-group mt-4">
-                                            <label>Metode Pembayaran</label>
-                                            <select name="installment" class="form-control">
-                                                <option selected disabled>Pilih Metode Pembayaran</option>
-                                                <option value="0">Cash</option>
-                                                <option value="3">Cicilan 3 Bulan</option>
-                                                <option value="6">Cicilan 6 Bulan</option>
-                                                <option value="12">Cicilan 12 Bulan</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <button type="submit" name="submit">Submit Data</button>
                                 </div>
-
-                                <input type="hidden" name="username" value="<?= $username ?>" />
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <?php
@@ -113,7 +120,7 @@
 
                                     <div class="form-group">
                                         <label>Kategori</label>
-                                        <select class="form-control" name="itemCat">
+                                        <select class="form-control" name="itemCat" required>
                                             <option selected>Pilih Kategori</option>
                                             <option value="mebel">Mebel</option>
                                             <option value="non mebel">Non Mebel</option>
@@ -122,7 +129,7 @@
 
                                     <div class="form-group">
                                         <label>Jenis Barang</label>
-                                        <select class="form-control" name="categoryID" id="categoryID">
+                                        <select class="form-control" name="categoryID" id="categoryID" required>
                                             <option selected>Pilih Jenis</option>
                                             <?php while ($datas = mysqli_fetch_array($results)) { ?>
                                                 <option value="<?= $datas['categoryID'] ?>"><?= $datas['categoryName'] ?></option>
@@ -145,52 +152,12 @@
 
                     <div class="col-sm-12 col-md-6 col-lg-8">
                         <div id="tampil"></div>
+                        
                     </div>
                 </div>
+
 
             </div>
-
-            <!-- <form method="post" class="form-data" id="form-data">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label>Item ID</label>
-                            <input type="hidden" name="id" id="id">
-                            <input type="text" name="itemID" id="itemID" class="form-control" required="true">
-                            <p class="text-danger" id="err_itemID"></p>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label>Quantity</label>
-                            <input type="hidden" name="id" id="id">
-                            <input type="text" name="quantity" id="quantity" class="form-control" required="true">
-                            <p class="text-danger" id="err_quantity"></p>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label>Price</label>
-                            <input type="hidden" name="id" id="id">
-                            <input type="text" name="price" id="price" class="form-control" required="true">
-                            <p class="text-danger" id="err_price"></p>
-                        </div>
-                    </div>
-                </div>
-
-              <div class="form-group">
-                        <label>Alamat</label>
-                        <textarea name="alamat" id="alamat" class="form-control" required="true"></textarea>
-                        <p class="text-danger" id="err_alamat"></p>
-                    </div>
-
-                
-            </form> -->
-
-
-
-
         </div>
 
 
