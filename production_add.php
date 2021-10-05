@@ -108,7 +108,7 @@
                     <?php
                     include 'config/connection.php';
 
-                    $query = "SELECT a.id as orderItemID, a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID  INNER JOIN item c ON a.itemID=c.itemID WHERE a.itemtype='onOrder' AND a.prod='0' AND a.orderID='$key' ";
+                    $query = "SELECT a.id as orderItemID, a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID  INNER JOIN item c ON a.itemID=c.itemID WHERE a.itemtype='local' AND a.prod='0' AND a.orderID='$key' ";
                     $result = mysqli_query($dbc, $query);
 
                     //echo $query;

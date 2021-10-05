@@ -66,7 +66,7 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.*, b.categoryName, SUM(COALESCE(c.quantity,0)) as jumlah FROM item a INNER JOIN category b ON a.categoryID=b.categoryID LEFT JOIN store_stock c ON a.itemID=c.itemID WHERE c.itemType='non mebel' GROUP BY a.itemID";
+                $query = "SELECT a.*, SUM(COALESCE(c.quantity,0)) as jumlah FROM item a  LEFT JOIN store_stock c ON a.itemID=c.itemID WHERE c.itemType='non mebel' GROUP BY a.itemID";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -90,17 +90,16 @@
 
                                         <form action="config/item/downloadExcelItem.php" method="POST" target="_blank">
                                             <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
-                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                            <button type="submit" class="btn btn-success float-right" hidden>Download Excel</button>
                                         </form>
-                                        <table class="table">
+                                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Nama Barang</th>
-                                                    <th scope="col">Deskripsi</th>
-                                                    <th scope="col">Jenis</th>
-                                                    <th scope="col">Jumlah</th>
-                                                    <th scope="col">Harga</th>
+                                                    <th class="text-center" scope="col">Nama Barang</th>
+                                                    <th class="text-center" scope="col">Deskripsi</th>
+                                                    <th class="text-center" scope="col">Jumlah Stok</th>
+                                                    <th class="text-center" scope="col">Harga</th>
                                                     <!-- <th scope="col">Opsi</th> -->
                                                 </tr>
                                             </thead>
@@ -109,12 +108,11 @@
                                                 $i = 1;
                                                 foreach ($myArray as $data) { ?>
                                                     <tr>
-                                                        <td><?= $i++ ?></td>
+                                                        <td  class="text-right"><?= $i++ ?></td>
                                                         <td><?= $data['itemName']; ?></td>
                                                         <td><?= $data['itemDescription']; ?></td>
-                                                        <td><?= $data['categoryName']; ?></td>
-                                                        <td><?= $data['jumlah']; ?></td>
-                                                        <td><?= rupiah($data['price']); ?></td>
+                                                        <td  class="text-right"><?= $data['jumlah']; ?></td>
+                                                        <td class="text-right"><?= rupiah($data['price']); ?></td>
                                                         <!-- <td>
                                                             <a href="#" data-toggle="modal" data-target="#updateItem<?= $data['itemID']; ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>

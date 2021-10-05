@@ -38,12 +38,12 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Master Barang</h4>
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Daftar Order / Pesanan</h4>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="index.html" class="text-muted">Pragulo</a></li>
-                                    <li class="breadcrumb-item text-muted active" aria-current="page">Master Barang</li>
+                                    <li class="breadcrumb-item"><a href="index.html" class="text-muted">Pesanan</a></li>
+                                    <li class="breadcrumb-item text-muted active" aria-current="page">Daftar Order</li>
                                 </ol>
                             </nav>
                         </div>
@@ -62,67 +62,10 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
 
-                <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <?php
-                        include 'config/connection.php';
-
-                        $query = "SELECT * FROM category ";
-                        $result = mysqli_query($dbc, $query);
-
-                        ?>
-                        <form class="mt-2" action="config/item/addItem" method="POST">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel">Tambah Barang</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label>Nama Barang</label>
-                                        <input type="text" class="form-control" name="itemName">
-                                    </div>
-
-                                    <div class="form-group mt-2">
-                                        <label>Deskripsi Barang</label>
-                                        <input type="text" class="form-control" name="itemDescription">
-                                    </div>
-
-                                    <div class="form-group mt-2">
-                                        <label>Jenis Barang</label>
-                                        <select class="form-control js-example-basic-single" name="categoryID" style="width: 100%;">
-
-                                            <?php while ($data = mysqli_fetch_array($result)) { ?>
-                                                <option value="<?= $data['categoryID'] ?>"><?= $data['categoryName'] ?> (Mebel) </option>
-                                                <option value="0">Non Mebel</option>
-                                            <?php } ?>
-
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group mt-2">
-                                        <label>Harga</label>
-                                        <input type="number" class="form-control" name="price" onkeypress="return isNumberKey(event)">
-                                    </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                    <button type="submit" class="btn btn-success">Simpan</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT * FROM (SELECT a.*, b.categoryName FROM `item` a 
-                INNER JOIN category b ON a.categoryID=b.categoryID 
-                UNION ALL 
-                SELECT *, 'Non Mebel' as categoryName FROM item WHERE categoryID='0' ) a GROUP BY itemID ";
+                $query = "SELECT a.id, a.orderID, b.dateOrder, b.dateFinish, b.customerName, b.customerAddress, b.customerPhone, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, a.finish FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID INNER JOIN item c ON a.itemID=c.itemID WHERE 1  ";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -132,10 +75,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Master Barang</h4>
-                                <h6 class="card-subtitle">Daftar Master Barang</h6>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Barang</button>
-                                <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6>
+                                <h4 class="card-title">Daftar Pesanan</h4>
+                                <h6 class="card-subtitle">Pesanan</h6>
+                                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Barang</button>
+                                <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6> -->
 
 
                                 <div class="table-responsive">
@@ -143,89 +86,75 @@
                                         while ($data = mysqli_fetch_array($result)) {
                                             $myArray[] = $data;
                                         } ?>
-
-                                        <form action="config/item/downloadExcelItem.php" method="POST" target="_blank">
+                                        <form action="config/order/downloadExcelOrderList.php" method="POST" target="_blank">
                                             <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
-                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                            <button type="submit" class="btn btn-success float-right" hidden>Download Excel</button>
                                         </form>
-                                        <table class="table">
+                                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Nama Barang</th>
-                                                    <th scope="col">Deskripsi</th>
-                                                    <th scope="col">Kategori</th>
+                                                    <th scope="col">Order ID</th>
+                                                    <th scope="col">Tgl Order</th>
+                                                    <th scope="col">Nama Customer</th>
+                                                    <th scope="col">Nama Item </th>
+                                                    <th scope="col">Jumlah</th>
                                                     <th scope="col">Harga</th>
+                                                    <th scope="col">Keterangan</th>
+                                                    <th scope="col">Status</th>
                                                     <th scope="col">Opsi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $i = 1;
-                                                foreach ($myArray as $data) { ?>
+                                                foreach($myArray as $data) {?>
                                                     <tr>
                                                         <td><?= $i++ ?></td>
+                                                        <td><?= $data['orderID']; ?></td>
+                                                        <td><?= $data['dateOrder']; ?></td>
+                                                        <td><?= $data['customerName']; ?></td>
                                                         <td><?= $data['itemName']; ?></td>
-                                                        <td><?= $data['itemDescription']; ?></td>
-                                                        <td><?= $data['categoryName']; ?></td>
-                                                        <td><?= rupiah($data['price']); ?></td>
+                                                        <td><?= $data['quantity']; ?></td>
+                                                        <td class="text-right"><?= rupiah($data['price']); ?></td>
+                                                        <td><?= $data['keterangan']; ?></td>
+                                                        <td><?php echo ($data['finish'] == 1) ? 'Diterima Customer': 'Menunggu Konfirmasi'; ?></td>
                                                         <td>
-                                                            <a href="#" data-toggle="modal" data-target="#updateItem<?= $data['itemID']; ?>">
-                                                                <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>
+                                                            <a href="#" data-toggle="modal" data-target="#finishItem<?= $data['id']; ?>">
+                                                                <button type="button" class="btn btn-success btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled': ''; ?>> Antar</button>
                                                             </a>
-                                                            <a href="#" data-toggle="modal" data-target="#deleteItem<?= $data['itemID']; ?>">
-                                                                <button type="button" class="btn btn-danger btn-rounded"><i class="far fa-trash-alt"></i> Delete</button>
-                                                            </a>
+                                                            <a href="#" data-toggle="modal" data-target="#editCustomer<?= $data['orderID']; ?>">
+                                                                <button type="button" class="btn btn-info btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled': ''; ?>> Edit</button>
+                                                            </a>                                                          
                                                         </td>
 
-                                                        <div id="updateItem<?= $data['itemID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div id="editCustomer<?= $data['orderID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
-                                                                <?php
-                                                                include 'config/connection.php';
-
-                                                                $querys = "SELECT * FROM category ";
-                                                                $results = mysqli_query($dbc, $querys);
-
-                                                                ?>?
-                                                                <form class="mt-2" action="config/item/editItem" method="POST">
+                                                                <form class="mt-2" action="#" method="POST">
                                                                     <input type="hidden" name="itemID" value="<?= $data['itemID'] ?>" />
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" id="myModalLabel">Edit Barang</h4>
+                                                                            <h4 class="modal-title" id="myModalLabel">Data Customer</h4>
                                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                                         </div>
                                                                         <div class="modal-body">
+                                                                        <div class="form-group">
+                                                                                <label>Nama Customer</label>
+                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['customerName']?>">
+                                                                            </div>
                                                                             <div class="form-group">
-                                                                                <label>Nama Barang</label>
-                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['itemName'] ?>">
+                                                                                <label>Alamat Customer</label>
+                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['customerAddress']?>">
                                                                             </div>
 
                                                                             <div class="form-group mt-2">
-                                                                                <label>Deskripsi Barang</label>
-                                                                                <input type="text" class="form-control" name="itemDescription" value="<?= $data['itemDescription'] ?>">
-                                                                            </div>
-
-                                                                            <div class="form-group mt-2">
-                                                                                <label>Deskripsi Barang</label>
-                                                                                <select class="form-control" name="categoryID">
-                                                                                    <option selected disabled>Pilih Kategori</option>
-                                                                                    <?php while ($datas = mysqli_fetch_array($results)) { ?>
-                                                                                        <option value="<?= $datas['categoryID'] ?>" <?php if ($datas['categoryID'] == $data['categoryID']) echo 'selected="selected"'; ?>><?= $datas['categoryName'] ?></option>
-                                                                                    <?php } ?>
-
-                                                                                    <option value="0" <?php if ($data['categoryID'] == "0") echo 'selected="selected"'; ?>>Non Mebel</option>
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="form-group mt-2">
-                                                                                <label>Harga</label>
-                                                                                <input type="number" class="form-control" name="price" value="<?= $data['price'] ?>">
-                                                                            </div>
-
+                                                                                <label>No Handphone</label>
+                                                                                <input type="text" class="form-control" name="itemDescription" value="<?= $data['customerPhone']?>">
+                                                                            </div>                                                                        
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                                                            <button type="submit" class="btn btn-success">Update</button>
+                                                                            <button type="submit" class="btn btn-success">Edit Data</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -233,23 +162,27 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="deleteItem<?= $data['itemID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fill-danger-modalLabel" aria-hidden="true">
+                                                        <div id="finishItem<?= $data['id'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fill-info-modalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
-                                                                <form action="config/item/deleteItem" method="POST">
+                                                                <form action="config/order/confirmOrder.php" method="POST">
+                                                                    <input type="hidden" name="id_order_item" value="<?= $data['id'] ?>" />
                                                                     <input type="hidden" name="itemID" value="<?= $data['itemID'] ?>" />
-                                                                    <div class="modal-content modal-filled bg-danger">
+                                                                    <input type="hidden" name="quantity" value="<?= $data['quantity'] ?>" />
+                                                                    <input type="hidden" name="price" value="<?= $data['price'] ?>" />
+                                                                    <input type="hidden" name="orderID" value="<?= $data['orderID'] ?>" />
+                                                                    <div class="modal-content modal-filled bg-info">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" id="fill-danger-modalLabel">Hapus Barang
+                                                                            <h4 class="modal-title" id="fill-danger-modalLabel">Konfirmasi Stok Keluar
                                                                             </h4>
                                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <p>Apakah anda ingin menghapus barang terpilih ?</p>
+                                                                            <p>Apakah anda ingin mengonfirmasi stok keluar dari toko ke Customer ? </p>
 
                                                                         </div>
                                                                         <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                                                            <button type="submit" class="btn btn-outline-light">Hapus</button>
+                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Batal</button>
+                                                                            <button type="submit" class="btn btn-outline-light">Ya</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -321,15 +254,6 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <?php include 'include/footer_jquery.php'; ?>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2();
-        });
-    </script>
-
-    <script src="src/customjs.js"></script>
-
 </body>
 
 </html>

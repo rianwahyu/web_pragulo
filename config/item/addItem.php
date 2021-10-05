@@ -6,8 +6,14 @@ $itemName = $_POST['itemName'];
 $itemDescription = $_POST['itemDescription'];
 $price = $_POST['price'];
 $categoryID = $_POST['categoryID'];
+$type = "";
+if($categoryID=="0"){
+    $type = "non mebel";
+}else{
+    $type = "mebel";
+}
 
-$query = "INSERT INTO `item`(`itemName`, `itemDescription`, `price`, `categoryID`) VALUES ('$itemName', '$itemDescription', '$price', '$categoryID')";
+$query = "INSERT INTO `item`(`itemName`, `itemDescription`, `price`, `categoryID`, type) VALUES ('$itemName', '$itemDescription', '$price', '$categoryID', '$type')";
 
 $result = mysqli_query($dbc, $query);
 

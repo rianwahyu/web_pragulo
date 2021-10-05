@@ -31,17 +31,17 @@
 
                 <li class="nav-small-cap"><span class="hide-menu">Penjualan</span></li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="order_add" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Penjualan
+                <li class="sidebar-item"> <a class="sidebar-link" href="order_add2" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Penjualan
                         </span></a>
                 </li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="order_list" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">List Penjualan
+                <li class="sidebar-item"> <a class="sidebar-link" href="order_list2" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">List Penjualan
                         </span></a>
                 </li>
 
                 <li class="nav-small-cap"><span class="hide-menu">Produksi</span></li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href="#" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Produksi
+                <li class="sidebar-item"> <a class="sidebar-link" href="production_add" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Tambah Produksi
                         </span></a>
                 </li>
 

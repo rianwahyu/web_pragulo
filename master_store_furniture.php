@@ -90,9 +90,9 @@
 
                                         <form action="config/item/downloadExcelItem.php" method="POST" target="_blank">
                                             <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
-                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                            <!-- <button type="submit" class="btn btn-success float-right">Download Excel</button> -->
                                         </form>
-                                        <table class="table">
+                                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>

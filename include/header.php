@@ -61,7 +61,7 @@
                         <li class="nav-item d-none d-md-block">
                             <a class="nav-link" href="javascript:void(0)">
                                 <form>
-                                    <div class="customize-input">
+                                    <div class="customize-input" hidden>
                                         <input class="form-control custom-shadow custom-radius border-0 bg-white"
                                             type="search" placeholder="Search" aria-label="Search">
                                         <i class="form-control-icon" data-feather="search"></i>

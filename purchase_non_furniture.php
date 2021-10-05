@@ -65,10 +65,10 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.id, a.itemID, b.itemName, b.itemDescription, a.quantity, a.status, a.datePurchase, a.type, c.categoryName 
+                $query = "SELECT a.id, a.itemID, b.itemName, b.itemDescription, a.quantity, a.status, a.datePurchase, a.type, 'non mebel' as categoryName 
                 FROM purchase a 
                 INNER JOIN item b ON a.itemID=b.itemID  
-                INNER JOIN category c ON b.categoryID = c.categoryID
+                -- INNER JOIN category c ON b.categoryID = c.categoryID
                 WHERE a.type='non mebel'  ";
 
                 $result = mysqli_query($dbc, $query);
@@ -97,8 +97,8 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Jenis Barang</th>
                                                     <th scope="col">Nama Barang</th>
+                                                    <th scope="col">Deskripsi</th>
                                                     <th scope="col">Jumlah</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Tanggal</th>
@@ -166,12 +166,12 @@
                                                                         <div class="modal-body">
                                                                             <div class="form-group">
                                                                                 <label>Nama Barang</label>
-                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['itemName'] ?>">
+                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['itemName'] ?>" disabled>
                                                                             </div>
 
                                                                             <div class="form-group mt-2">
                                                                                 <label>Deskripsi Barang</label>
-                                                                                <input type="text" class="form-control" name="itemDescription" value="<?= $data['itemDescription'] ?>">
+                                                                                <input type="text" class="form-control" name="itemDescription" value="<?= $data['itemDescription'] ?>" disabled>
                                                                             </div>
 
                                                                             <div class="form-group mt-2">
@@ -234,7 +234,7 @@
                     <?php
                     include 'config/connection.php';
 
-                    $querys = "SELECT categoryID, categoryName FROM category ";
+                    $querys = "SELECT * FROM `item` WHERE type='non mebel' ";
                     $results = mysqli_query($dbc, $querys);
 
                     ?>
@@ -249,17 +249,18 @@
                                 <input type="hidden" name="username" value="<?php echo $username ?>" />
 
                                 <div class="form-group">
-                                    <label>Jenis Barang</label>
-                                    <select class="js-example-basic-single2" name="categoryID" id="categoryID" style="width: 100%;">
+                                    <label>Nama Barang</label>
+                                    <select class="js-example-basic-single2" name="itemID" id="itemID" style="width: 100%;">
+                                    <option disabled selected>Pilih Barang</option>
                                         <?php while ($datas = mysqli_fetch_array($results)) { ?>
-                                            <option value="<?= $datas['categoryID'] ?>"><?= $datas['categoryName'] ?></option>
+                                            <option value="<?= $datas['itemID'] ?>"><?= $datas['itemName'] ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
 
-                                <div id="itemID">
+                                <!-- <div id="itemID">
 
-                                </div>
+                                </div> -->
 
                                 <div id="itemDetail">
 
@@ -304,20 +305,20 @@
     <?php include 'include/footer_jquery.php'; ?>
 
     <script type="text/javascript">
-        $("#itemID").hide();
-        $('body').on("change", "#categoryID", function() {
-            var id = $(this).val();
-            var data = "id=" + id;
-            $.ajax({
-                type: 'POST',
-                url: "get_category.php",
-                data: data,
-                success: function(hasil) {
-                    $("#itemID").html(hasil);
-                    $("#itemID").show();
-                }
-            });
-        });
+        // $("#itemID").hide();
+        // $('body').on("change", "#categoryID", function() {
+        //     var id = $(this).val();
+        //     var data = "id=" + id;
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "get_category.php",
+        //         data: data,
+        //         success: function(hasil) {
+        //             $("#itemID").html(hasil);
+        //             $("#itemID").show();
+        //         }
+        //     });
+        // });
         $("#itemDetail").hide();
         $('body').on("change", "#itemID", function() {
             var id = $(this).val();

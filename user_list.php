@@ -132,7 +132,7 @@
                                                     <th scope="col">Nama Lengkap</th>
                                                     <th scope="col">Username</th>
                                                     <th scope="col">Jabatan</th>
-                                                    <th scope="col">Hasil Kerja</th>
+                                                    <!-- <th scope="col">Hasil Kerja</th> -->
                                                     <th scope="col">Opsi</th>
                                                 </tr>
                                             </thead>
@@ -146,9 +146,9 @@
                                                         <td><?= $data['fullname']; ?></td>
                                                         <td><?= $data['username']; ?></td>
                                                         <td><?= $data['role']; ?></td>
-                                                        <td><a href="user_job_desk?usernameID=<?= $data['username'] ?>&fullname=<?= $data['fullname'] ?>">
+                                                        <!-- <td><a href="user_job_desk?usernameID=<?= $data['username'] ?>&fullname=<?= $data['fullname'] ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="fas fa-eye"></i></button>
-                                                            </a></td>
+                                                            </a></td> -->
                                                         <td>
                                                             <a href="#" data-toggle="modal" data-target="#updateUser<?= $data['userID']; ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>

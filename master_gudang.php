@@ -90,9 +90,9 @@
 
                                         <form action="config/item/downloadExcelItem.php" method="POST" target="_blank">
                                             <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
-                                            <button type="submit" class="btn btn-success float-right">Download Excel</button>
+                                            <!-- <button type="submit" class="btn btn-success float-right">Download Excel</button> -->
                                         </form>
-                                        <table class="table">
+                                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
@@ -100,7 +100,7 @@
                                                     <th scope="col">Deskripsi</th>
                                                     <th scope="col">Jenis</th>
                                                     <th scope="col">Jumlah</th>
-                                                    <th scope="col">Harga</th>
+                                                    <!-- <th scope="col">Harga</th> -->
                                                     <!-- <th scope="col">Opsi</th> -->
                                                 </tr>
                                             </thead>
@@ -114,7 +114,7 @@
                                                         <td><?= $data['itemDescription']; ?></td>
                                                         <td><?= $data['categoryName']; ?></td>
                                                         <td><?= $data['jumlah']; ?></td>
-                                                        <td><?= rupiah($data['price']); ?></td>
+                                                        <!-- <td><?= rupiah($data['price']); ?></td> -->
                                                         <!-- <td>
                                                             <a href="#" data-toggle="modal" data-target="#updateItem<?= $data['itemID']; ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>

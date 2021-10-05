@@ -35,6 +35,8 @@ $role        =  $_SESSION['role'];
   <link href="src/dist/css/style.min.css" rel="stylesheet">
   <!-- <link href="src/asseets/libs/select2/select2.min.css" rel="stylesheet"> -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <link href="src/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
   
 
 </head>

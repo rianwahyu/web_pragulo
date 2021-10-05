@@ -38,9 +38,6 @@
 
             <div class="container-fluid">
 
-
-
-
                 <div class="row">
                     <div class="col-sm-12 col-md-10 col-lg-12">
                         <form method="POST" action="config/order/addOrder.php" enctype="multipart/form-data">
@@ -48,7 +45,6 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Form Data Pesanan</h4>
                                     <h6 class="card-subtitle">Mohon mengisi form di bawah ini</h6>
-
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -106,6 +102,10 @@
                 $querys = "SELECT * FROM category ";
                 $results = mysqli_query($dbc, $querys);
 
+
+                $querysNonMebel = "SELECT a.itemID, a.itemName FROM item a LEFT JOIN store_stock b ON a.itemID=b.itemID WHERE b.itemType='non mebel' GROUP BY a.itemID ";
+                $resultsNon = mysqli_query($dbc, $querysNonMebel);
+
                 ?>
 
                 <div class="row">
@@ -120,14 +120,14 @@
 
                                     <div class="form-group">
                                         <label>Kategori</label>
-                                        <select class="form-control" name="itemCat" required>
-                                            <option selected>Pilih Kategori</option>
+                                        <select class="form-control" name="itemCat" id="itemCat" required>
+                                            <option selected disabled>Pilih Kategori</option>
                                             <option value="mebel">Mebel</option>
                                             <option value="non mebel">Non Mebel</option>
                                         </select>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group" id="jenis_barang_group" name="jenis_barang_group" style="display: none">
                                         <label>Jenis Barang</label>
                                         <select class="form-control" name="categoryID" id="categoryID" required>
                                             <option selected>Pilih Jenis</option>
@@ -136,13 +136,29 @@
                                             <?php } ?>
                                         </select>
                                     </div>
+
+                                    <div class="form-group" id="non_mebel_group" name="non_mebel_group" style="display: none">
+                                        <label>Nama Barang</label>
+                                        <select class="form-control" name="itemIDNon" id="itemIDNon" required>
+                                            <option selected>Nama Barang</option>
+                                            <?php while ($datasNon = mysqli_fetch_array($resultsNon)) { ?>
+                                                <option value="<?= $datasNon['itemID'] ?>"><?= $datasNon['itemName'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+
+
                                     <div id="itemID"></div>
 
                                     <div id="itemDetail"></div>
 
+                                    <div id="itemDetailNon"></div>
+
+                                    <div id="error"></div>
+
                                     <div class="form-group">
                                         <button type="button" name="submit" id="Submit" class="btn btn-primary">
-                                            <i class="fa fa-save"></i> Simpan
+                                            <i class="fa fa-save"></i> Tambah Data
                                         </button>
                                     </div>
                                 </div>
@@ -152,7 +168,7 @@
 
                     <div class="col-sm-12 col-md-6 col-lg-8">
                         <div id="tampil"></div>
-                        
+
                     </div>
                 </div>
 
@@ -182,6 +198,36 @@
     <!-- End Wrapper -->
     <?php include 'include/footer_jquery.php' ?>
     <script type="text/javascript">
+        $('#itemCat').change(function(e) {
+            //$('#jenis_barang_group').hide();
+            var selectedVal = $("#itemCat option:selected").val();
+            if (selectedVal == 'mebel') {
+                $('#jenis_barang_group').show();
+                $('#non_mebel_group').hide();
+                $("#categoryID").prop('required', true);
+                $('#itemDetailNon').hide();
+                // $('#firebase_token_group').hide();
+                // $("#firebase_token").prop('required', false);
+                // $("#single_warehouse").prop('required', false);
+                // $('#warhouse_group').hide();
+                // $("#warehouse").prop('required', false);
+            } else if (selectedVal == 'non mebel') {
+                $('#jenis_barang_group').hide();
+                $('#non_mebel_group').show();
+                $("#itemIDNon").prop('required', true);
+                $('#itemID').hide();
+                $('#itemDetail').hide();
+                //$('#itemDetailNon').hide();
+
+                //$("#topic").prop('required', false);
+                // $('#firebase_token_group').show();
+                // $("#firebase_token").prop('required', true);
+                // $("#single_warehouse").prop('required', true);
+                // $('#warhouse_group').hide();
+                // $("#warehouse").prop('required', false);
+            }
+        });
+
         $(document).ready(function() {
             $("#itemID").hide();
             $('body').on("change", "#categoryID", function() {
@@ -209,6 +255,22 @@
                     success: function(hasil) {
                         $("#itemDetail").html(hasil);
                         $("#itemDetail").show();
+                    }
+                });
+            });
+
+
+            $("#itemID").hide();
+            $('body').on("change", "#itemIDNon", function() {
+                var id = $(this).val();
+                var data = "id=" + id;
+                $.ajax({
+                    type: 'POST',
+                    url: "get_itemNon.php",
+                    data: data,
+                    success: function(hasil) {
+                        $("#itemDetailNon").html(hasil);
+                        $("#itemDetailNon").show();
                     }
                 });
             });
@@ -274,6 +336,16 @@
                         document.getElementById("form-data").reset();
                         $("#itemDetail").hide();
                         $("#itemID").hide();
+                        $("#itemDetailNon").hide();
+                        $("#jenis_barang_group").hide();
+                        $("#non_mebel_group").hide();
+
+                        // $("#error").html(data);
+                        // $("#error").show();
+                    },
+                    error: function(data) {
+                        $("#error").html(data);
+                        $("#error").show();
                     }
                 });
             });
