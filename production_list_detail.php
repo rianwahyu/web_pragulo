@@ -32,6 +32,15 @@
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
         <div class="page-wrapper">
+            <?php
+            include 'config/connection.php';
+
+            $productionID = "";
+            if (isset($_GET)) {
+                $productionID = $_GET['productionID'];
+                $status = $_GET['status'];
+                $source = $_GET['source'];
+            } ?>
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
@@ -49,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="production_list">
+                <a href="<?=$source?>">
                     <button type="button" class="btn waves-effect waves-light btn-warning mt-3">Kembali</button>
                 </a>
             </div>
@@ -66,13 +75,7 @@
                 <!-- ============================================================== -->
 
                 <?php
-                include 'config/connection.php';
-
-                $productionID = "";
-                if (isset($_GET)) {
-                    $productionID = $_GET['productionID'];
-                    $status = $_GET['status'];
-                }
+                
 
                 $query = "SELECT a.productionID, a.orderID, b.itemName, a.dateIn, a.dateFinish, a.status, a.type, c.customerName FROM production a INNER JOIN item b ON a.itemID=b.itemID INNER JOIN orders c ON a.orderID=c.orderID WHERE productionID='$productionID' ";
 
@@ -230,15 +233,11 @@
                 </div>
 
                 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <?php
-                    $query3 = " SELECT username, fullname FROM `users` WHERE role='Karyawan' ";
-                    $result3 = mysqli_query($dbc, $query3);
-                    ?>
                     <div class="modal-dialog">
-                        <form class="mt-2" action="config/production/updateProductionStatus.php" method="POST">
+                        <form class="mt-2" action="#" method="POST">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel">Updata Prosses Produksi</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Updata Proses Produksi</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 </div>
                                 <div class="modal-body">
@@ -251,31 +250,13 @@
                                         <label>Update Status Produksi</label>
                                         <select class="form-control" name="status">
                                             <option disabled selected>Pilih Status Produksi</option>
-                                            <option value="perakitan">Perakitan</option>
-                                            <option value="pengamplasan">Pengamplasan</option>
-                                            <option value="penyemprotan">Proses Penyemprotan</option>
-                                            <option value="pasang jog">Proses Pemasangan Jog</option>
-                                            <option value="finishing">Proses Finishing</option>
+                                            <option value="Perakitan">Antrian Perakitan</option>
+                                            <option value="Pengamplasan">Antrian Pengamplasan</option>
+                                            <option value="Penyemprotan">Antrian Penyemprotan</option>
+                                            <option value="Pemasangan Jog">Antrian Pemasangan Jog</option>
+                                            <option value="Finishing">Antrian Finishing</option>
                                         </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Diproses Oleh</label>
-                                        <select class="form-control" name="prosesBy">
-                                            <option disabled selected>Pilih Tukang / Karyawan </option>
-                                            <?php
-                                            while ($data3 = mysqli_fetch_array($result3)) { ?>
-                                                <option value="<?= $data3['username'] ?>"><?= $data3['fullname'] ?></option>
-                                            <?php }
-                                            ?>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Keterangan Status Produksi</label>
-                                        <input type="text" class="form-control" name="note" placeholder="Masukkan keterangan" />
-                                    </div>
-
+                                    </div>                            
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>

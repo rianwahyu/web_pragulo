@@ -47,22 +47,22 @@
 
                 <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">List Produksi</span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Perakitan
+                        <li class="sidebar-item"><a href="production_perakitan" class="sidebar-link"><span class="hide-menu"> Proses Perakitan
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Pengamplasan
-                                </span></a>
-                        </li>
-
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Penyemprotan
+                        <li class="sidebar-item"><a href="production_pengamplasan" class="sidebar-link"><span class="hide-menu"> Proses Pengamplasan
                                 </span></a>
                         </li>
 
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Pemasangan Jog
+                        <li class="sidebar-item"><a href="production_penyemprotan" class="sidebar-link"><span class="hide-menu"> Proses Penyemprotan
                                 </span></a>
                         </li>
 
-                        <li class="sidebar-item"><a href="#" class="sidebar-link"><span class="hide-menu"> Proses Finishing
+                        <li class="sidebar-item"><a href="production_pemasangan_jog" class="sidebar-link"><span class="hide-menu"> Proses Pemasangan Jog
+                                </span></a>
+                        </li>
+
+                        <li class="sidebar-item"><a href="production_finishing" class="sidebar-link"><span class="hide-menu"> Proses Finishing
                                 </span></a>
                         </li>
                     </ul>
