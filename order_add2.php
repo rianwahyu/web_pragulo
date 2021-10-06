@@ -147,10 +147,11 @@
                                         </select>
                                     </div>
 
-
                                     <div id="itemID"></div>
 
                                     <div id="itemDetail"></div>
+
+                                    <div id="itemDetail2"></div>
 
                                     <div id="itemDetailNon"></div>
 
@@ -255,6 +256,22 @@
                     success: function(hasil) {
                         $("#itemDetail").html(hasil);
                         $("#itemDetail").show();
+                    }
+                });
+            });
+
+            $("#itemDetail2").hide();
+            $('body').on("change", "#itemtypes", function() {
+                var type = $(this).val();
+                var itemID = $("#itemIDs").val();
+                //var data = "id=" + id;
+                $.ajax({
+                    type: 'POST',
+                    url: "get_item_warehouse.php",
+                    data: {type: type, itemID: itemID},
+                    success: function(hasil) {
+                        $("#itemDetail2").html(hasil);
+                        $("#itemDetail2").show();
                     }
                 });
             });

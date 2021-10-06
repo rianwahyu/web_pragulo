@@ -5,7 +5,8 @@ include '../connection.php';
 
 
 $orderItemID = $_POST['orderItemID'];
-$username = $_POST['username'];
+$proses = $_POST['proses'];
+$tukang = $_POST['tukang'];
 $orderID=$_POST['orderID'];
 $itemID = $_POST['itemID'];
 $type = $_POST['type'];
@@ -15,9 +16,9 @@ $note = "Barang telah di konfirmasi";
 $curDate = date('Y-m-d H:i:s');
 
 $query = "";
-$query = $query. " INSERT INTO `production`(`productionID`, `orderID`, `itemID`, `dateIn`, `status`, `type`) VALUES ('$productionID', '$orderID', '$itemID', '$curDate', 'Dikonfirmasi', '$type'); ";
+$query = $query. " INSERT INTO `production`(`productionID`, `orderID`, `itemID`, `dateIn`, `status`, `type`) VALUES ('$productionID', '$orderID', '$itemID', '$curDate', '$proses', '$type'); ";
 
-$query = $query. " INSERT INTO `timeline`(`productionID`, `note`, `username`, `date`) VALUES ('$productionID', '$note', '$username', '$curDate'); ";
+$query = $query. " INSERT INTO `timeline`(`productionID`, `note`, `username`, `date`, status) VALUES ('$productionID', '$note', '$tukang', '$curDate', '$proses'); ";
 
 $query = $query. " UPDATE order_item SET prod='1' WHERE id='$orderItemID' ;";
 echo $query;

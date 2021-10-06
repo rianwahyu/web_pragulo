@@ -108,17 +108,23 @@
                     <?php
                     include 'config/connection.php';
 
-                    $query = "SELECT a.id as orderItemID, a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID  INNER JOIN item c ON a.itemID=c.itemID WHERE a.itemtype='local' AND a.prod='0' AND a.orderID='$key' ";
+                    $query = "SELECT a.id as orderItemID, a.orderID, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, b.customerName, b.dateOrder, b.dateFinish 
+                    FROM order_item a 
+                    INNER JOIN orders b ON a.orderID=b.orderID  
+                    INNER JOIN item c ON a.itemID=c.itemID 
+                    WHERE a.itemCat='mebel'  AND a.orderID like '%$key%' ";
                     $result = mysqli_query($dbc, $query);
 
-                    //echo $query;
+                    $query2 = "SELECT username, fullname FROM users WHERE role='karyawan' ";
+                    $result2 = mysqli_query($dbc, $query2);
+
                     ?>
 
                     <div class="col-sm-12 col-md-10 col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Daftar</h4>
-                                <h6 class="card-subtitle">Data barang yang akan di proses ke produksi</h6>
+                                <h4 class="card-title">Daftar Antrian Produksi</h4>
+                                <h6 class="card-subtitle">Data barang yang akan di proses ke antrian produksi</h6>
 
                                 <?php
                                 if ($status == "true") {
@@ -128,7 +134,7 @@
 
                                 <?php if (mysqli_num_rows($result) > 0) {  ?>
                                     <div class="table-responsive mt-4">
-                                        <table class="table" style="width: 100%;">
+                                        <table id="zero_config" class="table table-striped table-bordered no-wrap" style="width: 100%;">
                                             <thead class="bg-primary text-white">
                                                 <tr>
                                                     <th id="no" class="text-center">#</th>
@@ -136,7 +142,7 @@
                                                     <th id="customerName" class="text-center">Nama Customer</th>
                                                     <th id="itemName" class="text-center">Nama Barang</th>
                                                     <th id="quantity" class="text-center">Jumlah</th>
-                                                    <th id="harga" class="text-center">Harga Satuan</th>
+                                                    <th id="harga" class="text-center">Harga</th>
                                                     <th id="keterangan" class="text-center">Keterangan</th>
                                                     <th id="opsi" class="text-center">Opsi</th>
                                                 </tr>
@@ -155,7 +161,7 @@
                                                         <td><?= $data['keterangan']; ?></td>
                                                         <td>
                                                             <a href="#" data-toggle="modal" data-target="#confirmProduction<?= $i; ?>">
-                                                                <button type="button" class="btn btn-success btn-rounded"><i class="fas fa-check"></i> Confirm</button>
+                                                                <button type="button" class="btn btn-success btn-rounded btn-sm"><i class="fas fa-check"></i> Confirm</button>
                                                             </a>
                                                         </td>
 
@@ -164,7 +170,7 @@
 
                                                                 <form class="mt-2" action="config/production/addProduction.php" method="POST">
 
-                                                                <input type="text" value="<?= $username?>" name="username"/>
+                                                                    <input type="hidden" value="<?= $username ?>" name="username" />
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
                                                                             <h4 class="modal-title" id="myModalLabel">Konfirmasi Produksi</h4>
@@ -181,6 +187,11 @@
                                                                             </div>
 
                                                                             <div class="form-group">
+                                                                                <label>Nama Barang</label>
+                                                                                <input type="text" class="form-control" value="<?= $data['itemName'] ?>" readonly />
+                                                                            </div>
+
+                                                                            <div class="form-group">
                                                                                 <label hidden>Item ID</label>
                                                                                 <input type="hidden" class="form-control" name="itemID" value="<?= $data['itemID'] ?>" />
                                                                             </div>
@@ -191,11 +202,23 @@
                                                                             </div>
 
                                                                             <div class="form-group">
-                                                                                <label>Jenis Mebel</label>
-                                                                                <select class="form-control" name="type">
-                                                                                    <option selected disabled>Pilh Jenis Mebel</option>
-                                                                                    <option value="local">Kayu Lokal</option>
-                                                                                    <option value="jati">Kayu Jati</option>
+                                                                                <label>Pilih Tukang</label>
+                                                                                <select class="form-control" name="tukang" required>
+                                                                                    <?php while ($datas = mysqli_fetch_array($result2)) { ?>
+                                                                                        <option selected>Pilih Nama Tukang</option>
+                                                                                        <option value="<?= $datas['username'] ?>"><?= $datas['fullname'] ?></option>
+                                                                                    <?php } ?>
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label>Pilih Proses</label>
+                                                                                <select class="form-control" name="proses" required>
+                                                                                    <option value="Perakitan">Perakitan</option>
+                                                                                    <option value="Pengamplasan">Pengamplasan</option>
+                                                                                    <option value="Penyemprotan">Penyemprotan</option>
+                                                                                    <option value="Pemasangan Jog">Pemasangan Jog</option>
+                                                                                    <option value="Finishing">Finishing</option>
                                                                                 </select>
                                                                             </div>
 

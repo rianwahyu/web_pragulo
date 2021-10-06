@@ -22,7 +22,6 @@ if ($installment != 0) {
     $statusPembayaran = "paid";
 }
 
-
 $query = "";
 
 $query = $query . " INSERT INTO `orders`(`orderID`, `type`, `installment`, `status`, `customerName`, `customerAddress`, `customerPhone`, `dateOrder`, `dateFinish`, statusPembayaran) VALUES ('$orderID', '$type', '$installment', 'Proses', '$customerName', '$customerAddress', '$customerPhone', '$dateOrder', '$dateFinish','$statusPembayaran'); ";
@@ -77,7 +76,7 @@ if ($installment != 0) {
     $query = $query. "INSERT INTO `payment`(`orderID`, `amount`, `status`) VALUES ('$orderID', '$sumTotal', 'success') ;";
 }
 
-if ($installment == 0) {
+/* if ($installment == 0) {
     $j = 0;
     $query3 = "SELECT itemID, quantity FROM temp_order WHERE itemtype !='onOrder' AND user='$username' ";
     $result3 = mysqli_query($dbc, $query3);
@@ -92,13 +91,13 @@ if ($installment == 0) {
         }
     }
     $query = $query . " ; ";
-}
+} */
 
 $query = $query . " DELETE FROM `temp_order` WHERE user='$username' ; ";
 
 //echo $query;
 if (mysqli_multi_query($dbc, $query)) {
-    echo "<meta http-equiv='refresh' content='1 url=../../order_list'>";
+    echo "<meta http-equiv='refresh' content='1 url=../../order_list2'>";
 } else {
     echo "Gagal";
 }
