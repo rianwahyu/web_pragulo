@@ -1,36 +1,20 @@
 <?php include 'include/head.php'; ?>
 
 <body>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
+
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
+
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
+
         <?php include 'include/header.php'; ?>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
+
         <?php include 'include/aside.php'; ?>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
+
         <div class="page-wrapper">
             <?php
             include 'config/connection.php';
@@ -41,9 +25,7 @@
                 $status = $_GET['status'];
                 $source = $_GET['source'];
             } ?>
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
+
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
@@ -58,26 +40,16 @@
                         </div>
                     </div>
                 </div>
-                <a href="<?=$source?>">
+                <a href="<?= $source ?>">
                     <button type="button" class="btn waves-effect waves-light btn-warning mt-3">Kembali</button>
                 </a>
             </div>
 
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
 
                 <?php
-                
 
-                $query = "SELECT a.productionID, a.orderID, b.itemName, a.dateIn, a.dateFinish, a.status, a.type, c.customerName FROM production a INNER JOIN item b ON a.itemID=b.itemID INNER JOIN orders c ON a.orderID=c.orderID WHERE productionID='$productionID' ";
+                $query = "SELECT a.productionID, a.orderID, b.itemName, a.dateIn, a.dateFinish, a.status, a.type, c.customerName, a.itemID FROM production a INNER JOIN item b ON a.itemID=b.itemID INNER JOIN orders c ON a.orderID=c.orderID WHERE productionID='$productionID' ";
 
                 $result = mysqli_query($dbc, $query);
                 $rows = mysqli_fetch_array($result);
@@ -91,16 +63,6 @@
 
                 $query2 = "SELECT * FROM `timeline` WHERE productionID='$productionID' ";
                 $result2 = mysqli_query($dbc, $query2);
-                // $rows = mysqli_fetch_array($result2);    
-                // //echo $query2;
-
-                // $query3 = "SELECT * FROM payment WHERE orderID='$orderID' ";
-                // $result3 = mysqli_query($dbc, $query3);
-
-                // $query4 = "SELECT * FROM installment WHERE orderID='$orderID' GROUP BY id ASC ";
-                // $result4 = mysqli_query($dbc, $query4);
-
-
                 $successInsert = '<div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show"
                                     role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -162,7 +124,8 @@
                                 </div>
 
                                 <div class="card-footer float-right">
-                                    <button class="btn btn-success text-right" data-toggle="modal" data-target="#myModal">Update Proses</button>
+                                    <button class="btn btn-success text-right" data-toggle="modal" data-target="#myModalSelesai" <?php echo ($rows['status'] == "Finishing" || $rows['status'] == "Selesai") ? 'disabled' : '' ?>>Selesai Produksi</button>
+                                    <button class="btn btn-success text-right" data-toggle="modal" data-target="#myModal" <?php echo ($rows['status'] == "Selesai") ? 'disabled' : '' ?>>Update Proses</button>
                                 </div>
                             </div>
                         </div>
@@ -232,6 +195,30 @@
                     </div>
                 </div>
 
+                <div id="myModalSelesai" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form class="mt-2" action="config/production/updateFinishProduction.php" method="POST">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Konfirmasi Selesai Produksi</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Apakah anda ingin mengkonfirmasi proses produksi selesai dan barang akan di kirim ke gudang ?</p>
+                                    <input type="hidden" class="form-control" name="productionID" value="<?= $productionID ?>" />
+                                    <input type="hidden" class="form-control" name="orderID" value="<?= $rows['orderID'] ?>" />
+                                    <input type="hidden" class="form-control" name="itemID" value="<?= $rows['itemID'] ?>" />
+                                    <input type="hidden" class="form-control" name="source" value="<?= $source ?>" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Konfirmasi</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <form class="mt-2" action="#" method="POST">
@@ -245,6 +232,7 @@
                                     <div class="form-group">
                                         <label hidden>Item ID</label>
                                         <input type="hidden" class="form-control" name="productionID" value="<?= $productionID ?>" />
+
                                     </div>
                                     <div class="form-group">
                                         <label>Update Status Produksi</label>
@@ -256,7 +244,7 @@
                                             <option value="Pemasangan Jog">Antrian Pemasangan Jog</option>
                                             <option value="Finishing">Antrian Finishing</option>
                                         </select>
-                                    </div>                            
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
@@ -267,42 +255,10 @@
                     </div>
                 </div>
 
-
-
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
             </div>
-
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
             <?php include 'include/footer.php'; ?>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
     <?php include 'include/footer_jquery.php'; ?>
 </body>
 

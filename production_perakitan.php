@@ -80,7 +80,7 @@
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <strong>Sukses - </strong> Sukses Menambahkan Antrian ke proses perakitan
+                                    <strong>Sukses - </strong> Sukses Menambahkan Antrian ke proses produksi
                                 </div>'; ?>
 
             <div class="container-fluid">
@@ -114,7 +114,7 @@
                     <div class="col-sm-12 col-md-10 col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Daftar Proses Produksi</h4>
+                                <h4 class="card-title">Daftar Perakitan</h4>
                                 <h6 class="card-subtitle">Proses Perakitan</h6>
 
                                 <?php
@@ -246,7 +246,7 @@
                     <div class="col-sm-12 col-md-10 col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Antrian Produksi</h4>
+                                <h4 class="card-title">Antrian Perakitan</h4>
                                 <h6 class="card-subtitle">Antri Proses Perakitan</h6>
 
                                 <?php

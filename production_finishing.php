@@ -73,7 +73,14 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     <strong>Sukses - </strong> Sukses mengubah status produksi
-                                </div>'; ?>
+                                </div>';
+            $successQueue = '<div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show"
+                                role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Sukses - </strong> Sukses Menambahkan Antrian ke proses produksi
+                            </div>'; ?>
 
             <div class="container-fluid">
                 <!-- ============================================================== -->
@@ -84,20 +91,23 @@
                 if (isset($_GET)) {
                     // $key = $_GET['key'];
                     $status = $_GET['status'];
+                    $statusQueue = $_GET['statusQueue'];
                 }
                 ?>
+
+
                 <div class="row">
 
                     <?php
                     include 'config/connection.php';
 
-                    $query = "SELECT a.timelineID, b.orderID, a.productionID, b.itemID, c.itemName, e.fullname, a.note, DATE_FORMAT(a.date, '%Y-%m-%d') as date, DATE_FORMAT(a.dateFinish, '%Y-%m-%d') as dateFinish, a.prodStat
+                    $query = "SELECT a.timelineID, b.orderID, a.productionID, b.itemID, c.itemName, e.fullname, a.note, DATE_FORMAT(a.date, '%Y-%m-%d') as date, DATE_FORMAT(a.dateFinish, '%Y-%m-%d') as dateFinish, a.prodStat, a.status
                     FROM timeline a 
                     INNER JOIN production b ON a.productionID=b.productionID 
                     INNER JOIN item c ON b.itemID = c.itemID
                     INNER JOIN orders d ON b.orderID = d.orderID
                     INNER JOIN users e ON a.username=e.username
-                    WHERE a.status='Finishing' ";
+                    WHERE a.status='Finishing' AND queue='1' ";
                     $result = mysqli_query($dbc, $query);
 
                     ?>
@@ -105,8 +115,8 @@
                     <div class="col-sm-12 col-md-10 col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Daftar Proses Produksi</h4>
-                                <h6 class="card-subtitle">Proses Finishing</h6>
+                                <h4 class="card-title">Daftar Pemasangan Jog</h4>
+                                <h6 class="card-subtitle">Proses Pemasangan Jog</h6>
 
                                 <?php
                                 if ($status == "true") {
@@ -120,12 +130,10 @@
                                             <thead class="bg-primary text-white">
                                                 <tr>
                                                     <th class="text-center">#</th>
-                                                    <th class="text-center">ID Order</th>
-                                                    <th class="text-center">Id Produksi</th>
-                                                    <th class="text-center">Nama Barang</th>
                                                     <th class="text-center">Nama Tukang</th>
-                                                    <th class="text-center">Tgl Proses</th>
-                                                    <th class="text-center">Tgl Finishing</th>
+                                                    <th class="text-center">ID Order</th>
+                                                    <th class="text-center">Nama Barang</th>
+                                                    <th class="text-center">Tgl Mulai Proses</th>
                                                     <th class="text-center">Status</th>
                                                     <th class="text-center">Opsi</th>
                                                 </tr>
@@ -136,16 +144,17 @@
                                                 while ($data = mysqli_fetch_array($result)) { ?>
                                                     <tr>
                                                         <td><?= $i++; ?></td>
-                                                        <td><?= $data['orderID']; ?></td>
-                                                        <td><?= $data['productionID']; ?></td>
-                                                        <td><?= $data['itemName']; ?></td>
                                                         <td><?= $data['fullname']; ?></td>
+                                                        <td><?= $data['orderID']; ?></td>
+                                                        <td><?= $data['itemName']; ?></td>
                                                         <td><?= $data['date']; ?></td>
-                                                        <td><?= $data['dateFinish']; ?></td>
-                                                        <td><?php echo ($data['prodStat'] == 1) ? 'Selesai' : 'Dikerjakan'; ?></td>
+                                                        <td><?php echo ($data['prodStat'] == 1) ? 'Selesai Dikerjakan' : 'Sedang Dikerjakan'; ?></td>
                                                         <td>
                                                             <a href="#" data-toggle="modal" data-target="#confirmProduction<?= $i; ?>">
-                                                                <button type="button" class="btn btn-success btn-rounded btn-sm"><i class="fas fa-check"></i>Selesai</button>
+                                                                <button type="button" class="btn btn-success btn-rounded btn-sm" <?php echo ($data['prodStat'] == 1) ? 'disabled' : ''; ?>>Update Proses</button>
+                                                            </a>
+                                                            <a href="production_list_detail?productionID=<?= $data['productionID'] ?>&source=production_pemasangan_jog">
+                                                                <button type="button" class="btn btn-info btn-rounded btn-sm"> Detail</button>
                                                             </a>
                                                         </td>
 
@@ -161,46 +170,24 @@
                                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <p>Apakah anda ingin mengkonfirmasi proses <strong>Pemasangan Jog</strong> selesai dan melanjutkan ke proses selanjutnya ?</p>
+                                                                            <p>Apakah anda ingin mengkonfirmasi proses <strong> Selesai Finishing</strong> ? </p>
 
                                                                             <input type="hidden" class="form-control" name="itemID" value="<?= $data['itemID'] ?>" />
 
                                                                             <input type="hidden" class="form-control" name="orderItemID" value="<?= $data['orderItemID'] ?>" />
-
-                                                                            <?php
-                                                                            $query2 = "SELECT username, fullname FROM users WHERE role='karyawan' ";
-                                                                            $result2 = mysqli_query($dbc, $query2);
-                                                                            ?>
-
-                                                                            <div class="form-group">
-                                                                                <label>Pilih Tukang</label>
-                                                                                <select class="form-control" name="tukang" required>
-                                                                                    <option selected disabled>Pilih Nama Tukang</option>
-                                                                                    <?php while ($datas = mysqli_fetch_array($result2)) { ?>
-
-                                                                                        <option value="<?= $datas['username'] ?>"><?= $datas['fullname'] ?></option>
-                                                                                    <?php } ?>
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="form-group">
-                                                                                <label>Pilih Proses</label>
+                                                                            <!-- <div class="form-group">
+                                                                                <label>Pilih Proses Produksi</label>
                                                                                 <select class="form-control" name="proses" required>
-                                                                                    <option value="Finishing">Finishing</option>
+                                                                                    <option value="Finishing"> Antrian Finishing</option>
                                                                                 </select>
-                                                                            </div>
+                                                                            </div> -->
 
-                                                                            <div class="form-group">
-                                                                                <label>Keterangan Proses</label>
-                                                                                <textarea style="width:100%; height:80px;" cols="42" rows="5" name="note"></textarea>
-                                                                            </div>
-
+                                                                            <input type="hidden" name="curentStat" value="<?= $data['status'] ?>" />
                                                                             <input type="hidden" name="itemID" value="<?= $data['itemID'] ?>" />
                                                                             <input type="hidden" name="orderID" value="<?= $data['orderID'] ?>" />
                                                                             <input type="hidden" name="productionID" value="<?= $data['productionID'] ?>" />
                                                                             <input type="hidden" name="timelineID" value="<?= $data['timelineID'] ?>" />
-
-                                                                            <input type="hidden" name="pageName" value="production_pemasangan_jog" />
+                                                                            <input type="hidden" name="pageName" value="production_finishing" />
 
 
                                                                         </div>
@@ -237,6 +224,141 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+
+                    <?php
+                    include 'config/connection.php';
+
+                    $querys = "SELECT a.timelineID, b.orderID, a.productionID, b.itemID, c.itemName, e.keterangan , DATE_FORMAT(d.dateOrder, '%Y-%m-%d') as dateOrder, DATE_FORMAT(d.dateFinish, '%Y-%m-%d') as dateFinish
+                    FROM timeline a 
+                    INNER JOIN production b ON a.productionID=b.productionID 
+                    INNER JOIN item c ON b.itemID = c.itemID
+                    INNER JOIN orders d ON b.orderID = d.orderID
+                    INNER JOIN order_item e ON d.orderID = e.orderID AND b.itemID = e.itemID
+                    WHERE a.status='Finishing' AND queue='0' ";
+                    $results = mysqli_query($dbc, $querys);
+
+                    ?>
+
+                    <div class="col-sm-12 col-md-10 col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Antrian Finishing</h4>
+                                <h6 class="card-subtitle">Antri Proses Finishing</h6>
+
+                                <?php
+                                if ($statusQueue == "true") {
+                                    echo $successQueue;
+                                }
+                                ?>
+
+                                <?php if (mysqli_num_rows($results) > 0) {  ?>
+                                    <div class="table-responsive mt-4">
+                                        <table id="zero_config" class="table table-striped table-bordered no-wrap" style="width: 100%;">
+                                            <thead class="bg-primary text-white">
+                                                <tr>
+                                                    <th class="text-center">#</th>
+                                                    <th class="text-center">Id Produksi</th>
+                                                    <th class="text-center">ID Order</th>
+                                                    <th class="text-center">Nama Barang</th>
+                                                    <th class="text-center">Keterangan Barang</th>
+                                                    <th class="text-center">Tgl Pemesanan</th>
+                                                    <th class="text-center">Tgl Target Selesai</th>
+                                                    <th class="text-center">Opsi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $i = 1;
+                                                while ($data = mysqli_fetch_array($results)) { ?>
+                                                    <tr>
+                                                        <td><?= $i++; ?></td>
+                                                        <td><?= $data['productionID']; ?></td>
+                                                        <td><?= $data['orderID']; ?></td>
+                                                        <td><?= $data['itemName']; ?></td>
+                                                        <td><?= $data['keterangan']; ?></td>
+                                                        <td><?= $data['dateOrder']; ?></td>
+                                                        <td><?= $data['dateFinish']; ?></td>
+
+                                                        <td>
+                                                            <a href="#" data-toggle="modal" data-target="#kerjakan<?= $i; ?>">
+                                                                <button type="button" class="btn btn-success btn-rounded btn-sm" <?php echo ($data['prodStat'] == 1) ? 'disabled' : ''; ?>>Kerjakan</button>
+                                                            </a>
+                                                        </td>
+
+                                                        <div id="kerjakan<?= $i ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+
+                                                                <form class="mt-2" action="config/production/updateAntrian.php" method="POST">
+
+                                                                    <input type="hidden" value="<?= $username ?>" name="username" />
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="myModalLabel">Konfirmasi Pengerjaan Finishing</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <input type="hidden" class="form-control" name="itemID" value="<?= $data['itemID'] ?>" />
+
+                                                                            <input type="hidden" class="form-control" name="orderItemID" value="<?= $data['orderItemID'] ?>" />
+
+                                                                            <?php
+                                                                            $query2 = "SELECT username, fullname FROM users WHERE role='karyawan' ";
+                                                                            $result2 = mysqli_query($dbc, $query2);
+                                                                            ?>
+
+                                                                            <div class="form-group">
+                                                                                <label>Pilih Tukang</label>
+                                                                                <select class="form-control" name="tukang" required>
+                                                                                    <option selected disabled>Pilih Nama Tukang</option>
+                                                                                    <?php while ($datas = mysqli_fetch_array($result2)) { ?>
+
+                                                                                        <option value="<?= $datas['username'] ?>"><?= $datas['fullname'] ?></option>
+                                                                                    <?php } ?>
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label>Keterangan Proses</label>
+                                                                                <textarea style="width:100%; height:80px;" cols="42" rows="5" name="note"></textarea>
+                                                                            </div>
+
+                                                                            <input type="hidden" name="timelineID" value="<?= $data['timelineID'] ?>" />
+
+                                                                            <input type="hidden" name="pageName" value="production_finishing" />
+
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                                                                            <button type="submit" class="btn btn-success">Kerjakan</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+
+                                                            </div>
+                                                        </div>
+                                                    </tr>
+                                                <?php }
+
+
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <?php
+                                } else {
+                                    echo "<h4>Tidak ada Data</h4>";
+                                }
+
+                                ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
 
             </div>
 

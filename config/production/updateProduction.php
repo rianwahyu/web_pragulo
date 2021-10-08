@@ -10,15 +10,15 @@ $itemID = $_POST['itemID'];
 // $note = $_POST['note'];
 $productionID = $_POST['productionID'];
 $pageName = $_POST['pageName'];
+$curentStat = $_POST['curentStat'];
 
 $query = "";
 $query = $query . " UPDATE timeline SET dateFinish=NOW(), prodStat='1' WHERE timelineID='$timelineID' ; ";
 
-$query = $query. " INSERT INTO `timeline`(`productionID`, status) VALUES ('$productionID', '$proses'); ";
-
-$query = $query . " UPDATE production SET status='$proses' WHERE productionID='$productionID' ; ";
-
-echo $query;
+if($curentStat !="Finishing"){
+    $query = $query. " INSERT INTO `timeline`(`productionID`, status) VALUES ('$productionID', '$proses'); ";
+    $query = $query . " UPDATE production SET status='$proses' WHERE productionID='$productionID' ; ";
+}
 
 if (mysqli_multi_query($dbc, $query)) {
     echo "<meta http-equiv='refresh' content='1 url=../../".$pageName."?status=true'>";
