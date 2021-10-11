@@ -229,6 +229,139 @@
 
 
                 </div>
+
+
+                <?php
+                $successInsert = '<div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show"
+                                    role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong>Sukses - </strong> Sukses mengirim stok ke toko
+                                </div>';
+
+                $successQueue = '<div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show"
+                                    role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong>Sukses - </strong> Sukses Menambahkan Antrian ke proses produksi
+                                </div>'; ?>
+
+                <div class="row">
+
+                    <?php
+
+                    if (isset($_GET)) {
+                        $status = $_GET['status'];
+                    }
+
+
+                    include 'config/connection.php';
+                    $query2 = "SELECT a.id , a.dateStock, a.itemID, b.itemName, a.quantity, a.remark, a.toStore, a.itemType FROM warehouse_stock a INNER JOIN item b ON a.itemID=b.itemID WHERE a.type='in' AND toStore='0'";
+                    // echo $query2;
+                    $result2 = mysqli_query($dbc, $query2);
+
+                    ?>
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Stok Masuk</h4>
+                                <h6 class="card-subtitle">Daftar Stok Masuk Gudang</h6>
+                                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Barang</button> -->
+                                <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6>
+
+                                <?php
+                                if ($status == "true") {
+                                    echo $successInsert;
+                                } ?>
+
+                                <div class="table-responsive">
+                                    <?php if (mysqli_num_rows($result2) >= 1) {
+                                        while ($data2 = mysqli_fetch_array($result2)) {
+                                            $myArray2[] = $data2;
+                                        } ?>
+
+                                        <form action="config/item/downloadExcelItem.php" method="POST" target="_blank">
+                                            <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
+                                            <!-- <button type="submit" class="btn btn-success float-right">Download Excel</button> -->
+                                        </form>
+                                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Tgl</th>
+                                                    <th scope="col">Nama Barang</th>
+                                                    <th scope="col">Keterangan</th>
+                                                    <th scope="col">Jumlah</th>
+                                                    <th scope="col">Opsi</th>
+                                                    <!-- <th scope="col">Harga</th> -->
+                                                    <!-- <th scope="col">Opsi</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $i = 1;
+                                                foreach ($myArray2 as $data2) { ?>
+                                                    <tr>
+                                                        <td><?= $data2['dateStock']; ?></td>
+                                                        <td><?= $data2['itemName']; ?></td>
+                                                        <td><?= $data2['remark']; ?></td>
+                                                        <td class="text-right"><?= $data2['quantity']; ?></td>
+                                                        <td><a href="#" data-toggle="modal" data-target="#confirmStore<?= $data2['id']; ?>">
+                                                                <button type="button" class="btn btn-success btn-rounded btn-sm" <?php echo ($data['prodStat'] == 1) ? 'disabled' : ''; ?>>Kirim ke Toko</button>
+                                                            </a></td>
+
+                                                        <div id="confirmStore<?= $data2['id'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+
+                                                                <form class="mt-2" action="config/stock/updateToStore.php" method="POST">
+                                                                    <input type="hidden" name="id" value="<?= $data2['id'] ?>" />
+                                                                    <input type="hidden" name="itemID" value="<?= $data2['itemID'] ?>" />
+                                                                    <input type="hidden" name="quantity" value="<?= $data2['quantity'] ?>" />
+                                                                    <input type="hidden" name="itemType" value="<?= $data2['itemType'] ?>" />
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="myModalLabel">Kirim ke Toko</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>Apakah anda ingin mengkonfirmasi stok gudang akan di kirim / pindah ke stok toko ? </p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                                                                            <button type="submit" class="btn btn-success">Konfirmasi</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </tr>
+                                                <?php }
+
+
+                                                mysqli_close($dbc); ?>
+                                            </tbody>
+                                        </table>
+                                    <?php }
+
+                                    ?>
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
