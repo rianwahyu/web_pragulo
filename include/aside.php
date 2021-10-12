@@ -91,8 +91,22 @@
 
                 <li class="nav-small-cap"><span class="hide-menu">Laporan</span></li>
 
-        
+                <li class="sidebar-item"> <a class="sidebar-link" href="report_unpaid" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Order Belum Lunas 
+                        </span></a>
+                </li>
 
+                <li class="sidebar-item"> <a class="sidebar-link" href="report_paid" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Order Lunas
+                        </span></a>
+                </li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="report_store_stock" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Stok Toko
+                        </span></a>
+                </li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="report_warehouse_stock" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Stok Gudang
+                        </span></a>
+                </li>
+        
 
 
                 <!-- <li class="nav-small-cap"><span class="hide-menu">Transaksi</span></li>

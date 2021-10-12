@@ -65,7 +65,7 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.id, a.orderID, b.dateOrder, b.dateFinish, b.customerName, b.customerAddress, b.customerPhone, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, a.finish FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID INNER JOIN item c ON a.itemID=c.itemID WHERE 1  ";
+                $query = "SELECT a.id, a.orderID, b.dateOrder, b.dateFinish, b.customerName, b.customerAddress, b.customerPhone, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, a.finish, a.itemCat FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID INNER JOIN item c ON a.itemID=c.itemID WHERE 1  ";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -108,7 +108,7 @@
                                             <tbody>
                                                 <?php
                                                 $i = 1;
-                                                foreach($myArray as $data) {?>
+                                                foreach ($myArray as $data) { ?>
                                                     <tr>
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $data['orderID']; ?></td>
@@ -118,14 +118,14 @@
                                                         <td><?= $data['quantity']; ?></td>
                                                         <td class="text-right"><?= rupiah($data['price']); ?></td>
                                                         <td><?= $data['keterangan']; ?></td>
-                                                        <td><?php echo ($data['finish'] == 1) ? 'Diterima Customer': 'Menunggu Konfirmasi'; ?></td>
+                                                        <td><?php echo ($data['finish'] == 1) ? 'Diterima Customer' : 'Menunggu Konfirmasi'; ?></td>
                                                         <td>
                                                             <a href="#" data-toggle="modal" data-target="#finishItem<?= $data['id']; ?>">
-                                                                <button type="button" class="btn btn-success btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled': ''; ?>> Antar</button>
+                                                                <button type="button" class="btn btn-success btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled' : ''; ?>> Antar</button>
                                                             </a>
                                                             <a href="#" data-toggle="modal" data-target="#editCustomer<?= $data['orderID']; ?>">
-                                                                <button type="button" class="btn btn-info btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled': ''; ?>> Edit</button>
-                                                            </a>                                                          
+                                                                <button type="button" class="btn btn-info btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled' : ''; ?>> Edit</button>
+                                                            </a>
                                                         </td>
 
                                                         <div id="editCustomer<?= $data['orderID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -138,19 +138,19 @@
                                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                        <div class="form-group">
+                                                                            <div class="form-group">
                                                                                 <label>Nama Customer</label>
-                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['customerName']?>">
+                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['customerName'] ?>">
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label>Alamat Customer</label>
-                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['customerAddress']?>">
+                                                                                <input type="text" class="form-control" name="itemName" value="<?= $data['customerAddress'] ?>">
                                                                             </div>
 
                                                                             <div class="form-group mt-2">
                                                                                 <label>No Handphone</label>
-                                                                                <input type="text" class="form-control" name="itemDescription" value="<?= $data['customerPhone']?>">
-                                                                            </div>                                                                        
+                                                                                <input type="text" class="form-control" name="itemDescription" value="<?= $data['customerPhone'] ?>">
+                                                                            </div>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
@@ -170,6 +170,8 @@
                                                                     <input type="hidden" name="quantity" value="<?= $data['quantity'] ?>" />
                                                                     <input type="hidden" name="price" value="<?= $data['price'] ?>" />
                                                                     <input type="hidden" name="orderID" value="<?= $data['orderID'] ?>" />
+
+                                                                    <input type="hidden" name="itemType" value="<?= $data['itemCat'] ?>" />
                                                                     <div class="modal-content modal-filled bg-info">
                                                                         <div class="modal-header">
                                                                             <h4 class="modal-title" id="fill-danger-modalLabel">Konfirmasi Stok Keluar
