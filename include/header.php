@@ -10,19 +10,17 @@
                     <div class="navbar-brand">
                         <!-- Logo icon -->
                         <a href="index">
-                            <b class="logo-icon">
-                                <!-- Dark Logo icon -->
-                                <img src="src/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo icon -->
+                            <!-- <b class="logo-icon">                                
+                                <img src="src/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />                                
                                 <img src="src/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
-                            </b>
+                            </b> -->
                             <!--End Logo icon -->
                             <!-- Logo text -->
                             <span class="logo-text">
                                 <!-- dark Logo text -->
-                                <img src="src/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                                <img src="src/assets/images/pragulo1.png" width="120px;" alt="homepage" class="dark-logo" />
                                 <!-- Light Logo text -->
-                                <img src="src/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                                <img src="src/assets/images/pragulo1.png" width="120px;" class="light-logo" alt="homepage" />
                             </span>
                         </a>
                     </div>

@@ -65,7 +65,7 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.id, a.orderID, b.dateOrder, b.dateFinish, b.customerName, b.customerAddress, b.customerPhone, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, a.finish, a.itemCat FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID INNER JOIN item c ON a.itemID=c.itemID WHERE 1  ";
+                $query = "SELECT a.id, a.orderID, b.dateOrder, b.dateFinish, b.customerName, b.customerAddress, b.customerPhone, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, a.finish, a.itemCat FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID INNER JOIN item c ON a.itemID=c.itemID WHERE a.finish='0'  ";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -73,13 +73,26 @@
 
                 <div class="row">
                     <div class="col-12">
+                        <?php
+
+                        if (isset($_GET)) {
+                            $status = $_GET['status'];
+
+                            if ($status == "lowerStock") {
+                                echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Stok Kurang - </strong> Stok Persediaan toko kurang atau kosong, barang tidak bisa di antar ke customer
+                            </div>';
+                            }
+                        }
+                        ?>
                         <div class="card">
+
                             <div class="card-body">
                                 <h4 class="card-title">Daftar Pesanan</h4>
                                 <h6 class="card-subtitle">Pesanan</h6>
-                                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Barang</button>
-                                <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6> -->
-
 
                                 <div class="table-responsive">
                                     <?php if (mysqli_num_rows($result) >= 1) {

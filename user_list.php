@@ -51,16 +51,7 @@
 
                 </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
 
                 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -80,19 +71,7 @@
                                         <label>Username</label>
                                         <input type="text" class="form-control" name="username" autocomplete="off" reqired maxlength="10">
                                     </div>
-
-                                    <!-- <div class="form-group mt-2">
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" name="itemDescription" autocomplete="off" reqired>
-                                    </div> -->
-
-                                    <div class="form-group mt-2">
-                                        <label>Jabatan</label>
-                                        <select class="form-control" name="role">
-                                            <option> Pilih Jabatan</option>
-                                            <option value="Karyawan">Karyawan</option>
-                                        </select>
-                                    </div>
+                                    <input type="hidden" value="role" value="Karyawan" />
 
                                 </div>
                                 <div class="modal-footer">
@@ -132,7 +111,6 @@
                                                     <th scope="col">Nama Lengkap</th>
                                                     <th scope="col">Username</th>
                                                     <th scope="col">Jabatan</th>
-                                                    <!-- <th scope="col">Hasil Kerja</th> -->
                                                     <th scope="col">Opsi</th>
                                                 </tr>
                                             </thead>
@@ -146,9 +124,6 @@
                                                         <td><?= $data['fullname']; ?></td>
                                                         <td><?= $data['username']; ?></td>
                                                         <td><?= $data['role']; ?></td>
-                                                        <!-- <td><a href="user_job_desk?usernameID=<?= $data['username'] ?>&fullname=<?= $data['fullname'] ?>">
-                                                                <button type="button" class="btn btn-info btn-rounded"><i class="fas fa-eye"></i></button>
-                                                            </a></td> -->
                                                         <td>
                                                             <a href="#" data-toggle="modal" data-target="#updateUser<?= $data['userID']; ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>
@@ -184,28 +159,27 @@
                                                             </div>
 
                                                             <div id="deleteUser<?= $data['userID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fill-danger-modalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <form action="config/users/deleteUsers.php" method="POST">
-                                                                    <input type="hidden" name="userID" value="<?= $data['userID'] ?>" />
-                                                                    <div class="modal-content modal-filled bg-danger">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title" id="fill-danger-modalLabel">Hapus Karyawan
-                                                                            </h4>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>Apakah anda ingin menghapus karyawan terpilih ?</p>
+                                                                <div class="modal-dialog">
+                                                                    <form action="config/users/deleteUsers.php" method="POST">
+                                                                        <input type="hidden" name="userID" value="<?= $data['userID'] ?>" />
+                                                                        <div class="modal-content modal-filled bg-danger">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title" id="fill-danger-modalLabel">Hapus Karyawan
+                                                                                </h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <p>Apakah anda ingin menghapus karyawan terpilih ?</p>
 
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                                                                                <button type="submit" class="btn btn-outline-light">Hapus</button>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                                                            <button type="submit" class="btn btn-outline-light">Hapus</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                                <!-- /.modal-content -->
-                                                            </div><!-- /.modal-dialog -->
-                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
 
                                                         </td>
                                                     </tr>

@@ -28,3 +28,4 @@
 
     <script src="src/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="src/dist/js/pages/datatable/datatable-basic.init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>

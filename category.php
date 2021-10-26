@@ -97,7 +97,7 @@
                 ?>
 
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-6 col-lg-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Kategori</h4>
@@ -110,10 +110,10 @@
                                         while ($data = mysqli_fetch_array($result)) {
                                             $myArray[] = $data;
                                         } ?>
-                                        <form action="config/category/downloadExcelCategory.php" method="POST" target="_blank">
+                                        <!-- <form action="config/category/downloadExcelCategory.php" method="POST" target="_blank">
                                             <input type="hidden" name="myArray" value="<?php echo htmlentities(serialize($myArray)); ?>" />
                                             <button type="submit" class="btn btn-success float-right">Download Excel</button>
-                                        </form>
+                                        </form> -->
 
 
                                         <table class="table">
@@ -135,9 +135,9 @@
                                                             <a href="#" data-toggle="modal" data-target="#updateCategory<?= $data['categoryID']; ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>
                                                             </a>
-                                                            <a href="#" data-toggle="modal" data-target="#deleteCategory<?= $data['categoryID']; ?>">
+                                                            <!-- <a href="#" data-toggle="modal" data-target="#deleteCategory<?= $data['categoryID']; ?>">
                                                                 <button type="button" class="btn btn-danger btn-rounded"><i class="far fa-trash-alt"></i> Delete</button>
-                                                            </a>
+                                                            </a> -->
                                                         </td>
 
                                                         <div id="updateCategory<?= $data['categoryID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

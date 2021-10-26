@@ -77,20 +77,33 @@
 
                                             <div class="form-group mt-4">
                                                 <label>Metode Pembayaran</label>
-                                                <select name="installment" class="form-control">
+                                                <select name="payType" class="form-control" id="payType" required>
                                                     <option selected disabled>Pilih Metode Pembayaran</option>
-                                                    <option value="0">Cash</option>
-                                                    <option value="3">Cicilan 3 Bulan</option>
-                                                    <option value="6">Cicilan 6 Bulan</option>
-                                                    <option value="12">Cicilan 12 Bulan</option>
+                                                    <option value="Cash">Cash</option>
+                                                    <option value="Cicilan">Cicilan</option>
                                                 </select>
                                             </div>
+
+                                            <div class="form-row" id="cicilan" style="display: none">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Pilih Periode Cicilan</label>
+                                                        <input type="text" class="form-control text-rigth" onkeypress="return isNumberKey(event)" placeholder="Periode Cicilan" name="installment" id="installment" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Nominal Uang Muka (DP)</label>
+                                                        <input type="text" class="form-control text-rigth" onkeypress="return isNumberKey(event)" placeholder="Nominal DP" name="DP" id="DP" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="username" value="<?= $username ?>" />
+                                            <button class="btn btn-success float-rigth" type="submit" name="submit">Submit Data</button>
                                         </div>
                                     </div>
 
-                                    <input type="hidden" name="username" value="<?= $username ?>" />
-
-                                    <button type="submit" name="submit">Submit Data</button>
                                 </div>
                             </div>
                         </form>
@@ -207,25 +220,12 @@
                 $('#non_mebel_group').hide();
                 $("#categoryID").prop('required', true);
                 $('#itemDetailNon').hide();
-                // $('#firebase_token_group').hide();
-                // $("#firebase_token").prop('required', false);
-                // $("#single_warehouse").prop('required', false);
-                // $('#warhouse_group').hide();
-                // $("#warehouse").prop('required', false);
             } else if (selectedVal == 'non mebel') {
                 $('#jenis_barang_group').hide();
                 $('#non_mebel_group').show();
                 $("#itemIDNon").prop('required', true);
                 $('#itemID').hide();
                 $('#itemDetail').hide();
-                //$('#itemDetailNon').hide();
-
-                //$("#topic").prop('required', false);
-                // $('#firebase_token_group').show();
-                // $("#firebase_token").prop('required', true);
-                // $("#single_warehouse").prop('required', true);
-                // $('#warhouse_group').hide();
-                // $("#warehouse").prop('required', false);
             }
         });
 
@@ -268,7 +268,10 @@
                 $.ajax({
                     type: 'POST',
                     url: "get_item_warehouse.php",
-                    data: {type: type, itemID: itemID},
+                    data: {
+                        type: type,
+                        itemID: itemID
+                    },
                     success: function(hasil) {
                         $("#itemDetail2").html(hasil);
                         $("#itemDetail2").show();
@@ -291,6 +294,18 @@
                     }
                 });
             });
+        });
+
+        $('#payType').change(function(e) {
+            $("#cicilan").hide();
+            var selectedVal = $("#payType option:selected").val();
+            if (selectedVal == 'Cash') {                
+                $('#cicilan').hide();
+            }else{
+                $('#cicilan').show();
+                $("#installment").prop('required', true);
+                $("#DP").prop('required', true);
+            }
         });
 
         /* $(document).ready(function() {

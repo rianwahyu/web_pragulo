@@ -94,15 +94,17 @@
 
                                             <?php while ($data = mysqli_fetch_array($result)) { ?>
                                                 <option value="<?= $data['categoryID'] ?>"><?= $data['categoryName'] ?> (Mebel) </option>
-                                                <option value="0">Non Mebel</option>
+
                                             <?php } ?>
+
+                                            <option value="0">Non Mebel</option>
 
                                         </select>
                                     </div>
 
                                     <div class="form-group mt-2">
                                         <label>Harga</label>
-                                        <input type="number" class="form-control" name="price" onkeypress="return isNumberKey(event)">
+                                        <input type="text" class="form-control" name="price" id="rupiah1" required>
                                     </div>
 
                                 </div>
@@ -134,6 +136,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Master Barang</h4>
                                 <h6 class="card-subtitle">Daftar Master Barang</h6>
+                                <p>Master Barang di sini sangat berpengaruh ke seluruh transaksi pada sistem ini jadi mohon untuk memperhatikan lagi dalam memilih jenis barang dan juga kategori barang tersebut.</p>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Barang</button>
                                 <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6>
 
@@ -155,6 +158,7 @@
                                                     <th scope="col">Nama Barang</th>
                                                     <th scope="col">Deskripsi</th>
                                                     <th scope="col">Kategori</th>
+                                                    <th scope="col">Jenis Barang</th>
                                                     <th scope="col">Harga</th>
                                                     <th scope="col">Opsi</th>
                                                 </tr>
@@ -167,15 +171,27 @@
                                                         <td><?= $i++ ?></td>
                                                         <td><?= $data['itemName']; ?></td>
                                                         <td><?= $data['itemDescription']; ?></td>
+                                                        <td><?= $data['type']; ?></td>
                                                         <td><?= $data['categoryName']; ?></td>
-                                                        <td><?= rupiah($data['price']); ?></td>
+                                                        <td class="text-right"><?= rupiah($data['price']); ?></td>
                                                         <td>
                                                             <a href="#" data-toggle="modal" data-target="#updateItem<?= $data['itemID']; ?>">
-                                                                <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>
+                                                                <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i></button>
                                                             </a>
-                                                            <a href="#" data-toggle="modal" data-target="#deleteItem<?= $data['itemID']; ?>">
-                                                                <button type="button" class="btn btn-danger btn-rounded"><i class="far fa-trash-alt"></i> Delete</button>
-                                                            </a>
+
+                                                            <?php
+                                                            if ($data['active'] == "1") { ?>
+                                                                <a href="#" data-toggle="modal" data-target="#deleteItem<?= $data['itemID']; ?>">
+                                                                    <button type="button" class="btn btn-danger btn-rounded"><i class="far fa-eye-slash"></i></button>
+                                                                </a>
+                                                            <?php } else { ?>
+                                                                <a href="#" data-toggle="modal" data-target="#unHideItem<?= $data['itemID']; ?>">
+                                                                    <button type="button" class="btn btn-primary btn-rounded"><i class="fas fa-eye"></i></button>
+                                                                </a>
+                                                            <?php }
+                                                            ?>
+
+
                                                         </td>
 
                                                         <div id="updateItem<?= $data['itemID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -219,7 +235,7 @@
 
                                                                             <div class="form-group mt-2">
                                                                                 <label>Harga</label>
-                                                                                <input type="number" class="form-control" name="price" value="<?= $data['price'] ?>">
+                                                                                <input type="text" class="form-control" name="price" value="<?= $data['price'] ?>" > 
                                                                             </div>
 
                                                                         </div>
@@ -235,21 +251,21 @@
 
                                                         <div id="deleteItem<?= $data['itemID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fill-danger-modalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
-                                                                <form action="config/item/deleteItem" method="POST">
+                                                                <form action="config/item/hideItem.php" method="POST">
                                                                     <input type="hidden" name="itemID" value="<?= $data['itemID'] ?>" />
                                                                     <div class="modal-content modal-filled bg-danger">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" id="fill-danger-modalLabel">Hapus Barang
+                                                                            <h4 class="modal-title" id="fill-danger-modalLabel">Sembunyikan Barang
                                                                             </h4>
                                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <p>Apakah anda ingin menghapus barang terpilih ?</p>
+                                                                            <p>Apakah anda ingin menyembunyikan barang terpipih ?</p>
 
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
-                                                                            <button type="submit" class="btn btn-outline-light">Hapus</button>
+                                                                            <button type="submit" class="btn btn-outline-light">Sembunyikan</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -257,6 +273,29 @@
                                                             </div><!-- /.modal-dialog -->
                                                         </div>
 
+                                                        <div id="unHideItem<?= $data['itemID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fill-danger-modalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <form action="config/item/unHideItem.php" method="POST">
+                                                                    <input type="hidden" name="itemID" value="<?= $data['itemID'] ?>" />
+                                                                    <div class="modal-content modal-filled bg-primary">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="fill-danger-modalLabel">Tamplikan Barang
+                                                                            </h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>Apakah anda ingin menampilkan barang terpipih ?</p>
+
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Tutup</button>
+                                                                            <button type="submit" class="btn btn-outline-light">Tampilkan</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <!-- /.modal-content -->
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div>
 
                                                     </tr>
                                                 <?php }
@@ -329,6 +368,37 @@
     </script>
 
     <script src="src/customjs.js"></script>
+    <script src="src/customRupiah.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var rupiah = document.getElementById("rupiah");
+            rupiah.addEventListener("keyup", function(e) {
+                // tambahkan 'Rp.' pada saat form di ketik
+                // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+                rupiah.value = formatRupiah(this.value, "Rp. ");
+            });
+
+            /* Fungsi formatRupiah */
+            function formatRupiah(angka, prefix) {
+                var number_string = angka.replace(/[^,\d]/g, "").toString(),
+                    split = number_string.split(","),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                // tambahkan titik jika yang di input sudah menjadi angka ribuan
+                if (ribuan) {
+                    separator = sisa ? "." : "";
+                    rupiah += separator + ribuan.join(".");
+                }
+
+                rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+                return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+            }
+
+        })
+    </script>
 
 </body>
 

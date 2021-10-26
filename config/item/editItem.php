@@ -8,7 +8,13 @@ $itemDescription = $_POST['itemDescription'];
 $price = $_POST['price'];
 $categoryID = $_POST['categoryID'];
 
-$query = "UPDATE `item` SET `itemName`='$itemName', `itemDescription`='$itemDescription', `price`='$price', `categoryID`='$categoryID' WHERE itemID='$itemID' ";
+if($categoryID=="0"){
+    $type = "non mebel";
+}else{
+    $type = "mebel";
+}
+
+$query = "UPDATE `item` SET `itemName`='$itemName', `itemDescription`='$itemDescription', `price`='$price', `categoryID`='$categoryID', type='$type' WHERE itemID='$itemID' ";
 
 $result = mysqli_query($dbc, $query);
 

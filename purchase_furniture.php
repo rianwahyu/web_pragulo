@@ -69,7 +69,7 @@
                 FROM purchase a 
                 INNER JOIN item b ON a.itemID=b.itemID  
                 INNER JOIN category c ON b.categoryID = c.categoryID
-                WHERE a.type='mebel'  ";
+                WHERE a.type='mebel' AND a.status='Pending'  ";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -81,6 +81,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Pembelian</h4>
                                 <h6 class="card-subtitle">Pembelian Barang Mebel</h6>
+
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Pembelian</button>
                                 <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6>
 
@@ -246,11 +247,12 @@
                             </div>
 
                             <div class="modal-body">
+                                <p>Mohon untuk cek daftar barang yang muncul jika tidak sesuai mohon untuk melakukan cek dan maintenance di menu Master Barang.</p>
                                 <input type="hidden" name="username" value="<?php echo $username ?>" />
 
                                 <div class="form-group">
                                     <label>Jenis Barang</label>
-                                    <select class="js-example-basic-single2" name="categoryID" id="categoryID" style="width: 100%;">                                        
+                                    <select class="js-example-basic-single2" name="categoryID" id="categoryID" style="width: 100%;">
                                         <?php while ($datas = mysqli_fetch_array($results)) { ?>
                                             <option value="<?= $datas['categoryID'] ?>"><?= $datas['categoryName'] ?></option>
                                         <?php } ?>
@@ -312,7 +314,7 @@
                 type: 'POST',
                 url: "get_category.php",
                 data: data,
-                success: function(hasil) {                    
+                success: function(hasil) {
                     $("#itemID").html(hasil);
                     $("#itemID").show();
                 }
@@ -329,7 +331,7 @@
                 data: data,
                 success: function(hasil) {
                     $("#itemDetail").html(hasil);
-                    $("#itemDetail").show();                    
+                    $("#itemDetail").show();
                 }
             });
         });
@@ -339,10 +341,8 @@
         });
 
         $(document).ready(function() {
-            $('.js-example-basic-single2').select2();            
+            $('.js-example-basic-single2').select2();
         });
-
-        
     </script>
 
 

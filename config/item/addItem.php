@@ -4,7 +4,7 @@ include '../connection.php';
 
 $itemName = $_POST['itemName'];
 $itemDescription = $_POST['itemDescription'];
-$price = $_POST['price'];
+$price = str_replace(".","",$_POST['price']);
 $categoryID = $_POST['categoryID'];
 $type = "";
 if($categoryID=="0"){
@@ -14,7 +14,7 @@ if($categoryID=="0"){
 }
 
 $query = "INSERT INTO `item`(`itemName`, `itemDescription`, `price`, `categoryID`, type) VALUES ('$itemName', '$itemDescription', '$price', '$categoryID', '$type')";
-
+//echo $query;
 $result = mysqli_query($dbc, $query);
 
 if ($result === TRUE){

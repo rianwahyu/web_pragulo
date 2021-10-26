@@ -8,9 +8,9 @@
                 <li class="list-divider"></li>
                 <li class="nav-small-cap"><span class="hide-menu">Master Data</span></li>
 
-                <!-- <li class="sidebar-item"> <a class="sidebar-link" href="category" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Kategori
+                <li class="sidebar-item"> <a class="sidebar-link" href="category" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Jenis Barang
                         </span></a>
-                </li> -->
+                </li>
                 <li class="sidebar-item"> <a class="sidebar-link" href="master_item" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Barang
                         </span></a>
                 </li>

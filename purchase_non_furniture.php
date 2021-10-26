@@ -69,7 +69,7 @@
                 FROM purchase a 
                 INNER JOIN item b ON a.itemID=b.itemID  
                 -- INNER JOIN category c ON b.categoryID = c.categoryID
-                WHERE a.type='non mebel'  ";
+                WHERE a.type='non mebel' AND a.status='Pending' ";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -81,6 +81,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Pembelian</h4>
                                 <h6 class="card-subtitle">Pembelian Barang Non Mebel</h6>
+                                
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Tambah Pembelian</button>
                                 <h6 class="card-title mt-5"><i class="mr-1 font-18 mdi mdi-numeric-1-box-multiple-outline"></i></h6>
 
@@ -242,10 +243,12 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="myModalLabel">Tambah Pembelian</h4>
+                                
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             </div>
 
                             <div class="modal-body">
+                            <p>Mohon untuk cek daftar barang yang muncul jika tidak sesuai mohon untuk melakukan cek dan maintenance di menu Master Barang.</p>
                                 <input type="hidden" name="username" value="<?php echo $username ?>" />
 
                                 <div class="form-group">

@@ -9,22 +9,22 @@ $customerAddress = $_POST['customerAddress'];
 $customerPhone = $_POST['customerPhone'];
 $dateOrder = $_POST['dateOrder'];
 $dateFinish = $_POST['dateFinish'];
+$payType = $_POST['payType'];
+$DP = $_POST['DP'];
 
 $orderID = getIDOrder();
 $type = "";
 $statusPembayaran = "";
 
-if ($installment != 0) {
-    $type = "Cicilan";
+if ($payType = "Cicilan") {    
     $statusPembayaran = "unpaid";
-} else {
-    $type = "Cash";
+} else {    
     $statusPembayaran = "paid";
 }
 
 $query = "";
 
-$query = $query . " INSERT INTO `orders`(`orderID`, `type`, `installment`, `status`, `customerName`, `customerAddress`, `customerPhone`, `dateOrder`, `dateFinish`, statusPembayaran) VALUES ('$orderID', '$type', '$installment', 'Proses', '$customerName', '$customerAddress', '$customerPhone', '$dateOrder', '$dateFinish','$statusPembayaran'); ";
+$query = $query . " INSERT INTO `orders`(`orderID`, `type`, `installment`, `status`, `customerName`, `customerAddress`, `customerPhone`, `dateOrder`, `dateFinish`, statusPembayaran) VALUES ('$orderID', '$payType', '$installment', 'Proses', '$customerName', '$customerAddress', '$customerPhone', '$dateOrder', '$dateFinish','$statusPembayaran'); ";
 
 $query = $query . "INSERT INTO `order_item`(`orderID`, `itemID`, `quantity`, `price`, `itemtype`, `keterangan`, image, itemCat) VALUES ";
 
@@ -56,8 +56,7 @@ if ($installment != 0) {
     $query = $query . " INSERT INTO `installment`(`orderID`, `amount`, `dueDate`, `status`) VALUES ";
     $j = 0;
     $amount = $sumTotal / $installment;
-    $amount = number_format((float)$amount, 2, '.', '');;
-    //echo abs($amount);
+    $amount = number_format((float)$amount, 2, '.', '');;    
     for ($k = 0; $k < $installment; $k++) {
 
         $customDate++;
@@ -72,6 +71,8 @@ if ($installment != 0) {
     }
 
     $query = $query . " ; ";
+
+    $query = $query. "INSERT INTO `payment`(`orderID`, `amount`, `status`) VALUES ('$orderID', '$DP', 'success') ;";
 }else{
     $query = $query. "INSERT INTO `payment`(`orderID`, `amount`, `status`) VALUES ('$orderID', '$sumTotal', 'success') ;";
 }
