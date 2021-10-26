@@ -128,9 +128,14 @@
                                                             <a href="#" data-toggle="modal" data-target="#updateUser<?= $data['userID']; ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="far fa-edit"></i> Edit</button>
                                                             </a>
-                                                            <a href="#" data-toggle="modal" data-target="#deleteUser<?= $data['userID']; ?>">
-                                                                <button type="button" class="btn btn-danger btn-rounded"><i class="far fa-trash-alt"></i> Delete</button>
+
+                                                            <a href="user_job_desk?usernameID=<?= $data['userID']?>&fullname=<?= $data['fullname']?>">
+                                                                <button type="button" class="btn btn-primary btn-rounded"><i class="fas fa-eye"></i> Hasil Kerja</button>
                                                             </a>
+
+                                                            <!-- <a href="#" data-toggle="modal" data-target="#deleteUser<?= $data['userID']; ?>">
+                                                                <button type="button" class="btn btn-danger btn-rounded"><i class="far fa-trash-alt"></i> Delete</button>
+                                                            </a> -->
 
                                                             <div id="updateUser<?= $data['userID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">

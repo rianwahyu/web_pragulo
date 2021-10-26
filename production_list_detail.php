@@ -49,7 +49,10 @@
 
                 <?php
 
-                $query = "SELECT a.productionID, a.orderID, b.itemName, a.dateIn, a.dateFinish, a.status, a.type, c.customerName, a.itemID FROM production a INNER JOIN item b ON a.itemID=b.itemID INNER JOIN orders c ON a.orderID=c.orderID WHERE productionID='$productionID' ";
+                $query = "SELECT a.productionID, a.orderID, b.itemName, a.dateIn, a.dateFinish, a.status, a.type, c.customerName, a.itemID 
+                FROM production a 
+                INNER JOIN item b ON a.itemID=b.itemID 
+                INNER JOIN orders c ON a.orderID=c.orderID WHERE productionID='$productionID' ";
 
                 $result = mysqli_query($dbc, $query);
                 $rows = mysqli_fetch_array($result);
@@ -124,8 +127,8 @@
                                 </div>
 
                                 <div class="card-footer float-right">
-                                    <button class="btn btn-success text-right" data-toggle="modal" data-target="#myModalSelesai" <?php echo ($rows['status'] == "Finishing" || $rows['status'] == "Selesai") ? 'disabled' : '' ?>>Selesai Produksi</button>
-                                    <button class="btn btn-success text-right" data-toggle="modal" data-target="#myModal" <?php echo ($rows['status'] == "Selesai") ? 'disabled' : '' ?>>Update Proses</button>
+                                    <button class="btn btn-success text-right" data-toggle="modal" data-target="#myModalSelesai" <?php echo ( $rows['status'] == "Selesai") ? 'disabled' : '' ?>>Selesai Produksi</button>
+                                    <button class="btn btn-success text-right" data-toggle="modal" data-target="#myModal" <?php echo ($rows['status'] == "Finishing" || $rows['status'] == "Selesai") ? 'disabled' : '' ?>>Update Proses</button>
                                 </div>
                             </div>
                         </div>

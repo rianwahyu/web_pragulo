@@ -20,12 +20,10 @@ $image = "";
 
 $sql = "";
 
-
 if ($itemCat == "non mebel") {    
     // if ($toPembelian == 1) {
     //     $sql = $sql . " INSERT INTO `purchase`(`itemID`, `quantity`, `type`, `status`, `datePurchase`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6]) ; ";
-    // }
-    
+    // }    
     $sql = $sql . " INSERT INTO `temp_order`(`itemID`, `quantity`, `price`, `itemtype`, `keterangan`, `user`, `image`, itemCat, pembelian) VALUES ('$itemIDNon', '$quantity', '$price', '-', '$keterangan', '$user', '$image', '$itemCat', '$toPembelian') ;";
 } else {
     $sql = $sql . "INSERT INTO `temp_order`(`itemID`, `quantity`, `price`, `itemtype`, `keterangan`, `user`, `image`, itemCat) VALUES ('$itemID', '$quantity', '$price', '$itemtype', '$keterangan', '$user', '$image', '$itemCat')";

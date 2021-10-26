@@ -68,6 +68,12 @@
                     </ul>
                 </li>
 
+                <li class="nav-small-cap"><span class="hide-menu">Pembayaran</span></li>
+
+                <li class="sidebar-item"> <a class="sidebar-link" href="order_list3" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Belum lunas
+                        </span></a>
+                </li>
+
                 <li class="nav-small-cap"><span class="hide-menu">Persediaan</span></li>
 
                 <li class="sidebar-item"> <a class="sidebar-link" href="master_gudang" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">Gudang 

@@ -112,11 +112,11 @@
                     FROM order_item a 
                     INNER JOIN orders b ON a.orderID=b.orderID  
                     INNER JOIN item c ON a.itemID=c.itemID 
-                    WHERE a.itemCat='mebel'  AND a.orderID like '%$key%' ";
+                    LEFT OUTER JOIN d a.orderID = d.orderID
+                    WHERE a.itemCat='mebel' AND a.finish='0' AND ( a.orderID like '%$key%' OR b.customerName like '%$key%' ) ";
+                    // echo $query;
                     $result = mysqli_query($dbc, $query);
-
-                    
-
+                
                     ?>
 
                     <div class="col-sm-12 col-md-10 col-lg-12">

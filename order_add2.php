@@ -169,7 +169,7 @@
                                     <div id="itemDetailNon"></div>
 
                                     <div id="error"></div>
-
+                                                
                                     <div class="form-group">
                                         <button type="button" name="submit" id="Submit" class="btn btn-primary">
                                             <i class="fa fa-save"></i> Tambah Data

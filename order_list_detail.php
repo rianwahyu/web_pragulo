@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="order_list">
+                <a href="order_list3">
                     <button type="button" class="btn waves-effect waves-light btn-warning mt-3">Kembali</button>
                 </a>
             </div>
@@ -217,14 +217,6 @@
                                                         <td><?= $data['keterangan']; ?></td>
                                                         <td class="text-right"><?= round($data['quantity']); ?></td>
                                                         <td class="text-right"><?= rupiah(round($data['price'])); ?></td>
-                                                        <!-- <td>
-                                                            <a href="order_list_detail" data-toggle="modal" data-target="#updateItem<?= $data['itemID']; ?>">
-                                                                <button type="button" class="btn btn-info btn-rounded"><i class="fas fa-eye"></i> Detail</button>
-                                                            </a>
-                                                            <a href="#" data-toggle="modal" data-target="#deleteItem<?= $data['itemID']; ?>">
-                                                                <button type="button" class="btn btn-danger btn-rounded"><i class="far fa-trash-alt"></i> Delete</button>
-                                                            </a>
-                                                        </td> -->
                                                         <td class="text-right"><?= rupiah($total); ?></td>
 
                                                         <div id="updateItem<?= $data['itemID'] ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -447,7 +439,7 @@
                                             <input type="hidden" name="amount" value="<?= round($data4['amount']) ?>" />
                                             <input type="hidden" name="sumTotals" value="<?= round($sumTotals) ?>" />
                                             <input type="hidden" name="orderID" value="<?= $orderID ?>" />
-                                            <button type="submit" name="submit">Update Pembayaran</button>
+                                            <button class="btn btn-success" type="submit" name="submit">Update Pembayaran</button>
                                         </form>
                                     <?php } else {
                                         echo "<h4>Tidak ditemukan data cicilan / pembayaran dilakukan secara cash</h4>";

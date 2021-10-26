@@ -65,7 +65,12 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.id, a.orderID, b.dateOrder, b.dateFinish, b.customerName, b.customerAddress, b.customerPhone, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, a.finish, a.itemCat FROM order_item a INNER JOIN orders b ON a.orderID=b.orderID INNER JOIN item c ON a.itemID=c.itemID WHERE a.finish='0'  ";
+                $query = "SELECT a.id, a.orderID, b.dateOrder, b.dateFinish, b.customerName, b.customerAddress, b.customerPhone, a.itemID, c.itemName, a.quantity, a.price, a.keterangan, a.finish, a.itemCat, COALESCE(SUM(d.quantity),0) as totalStock 
+                FROM order_item a 
+                INNER JOIN orders b ON a.orderID=b.orderID 
+                INNER JOIN item c ON a.itemID=c.itemID 
+                LEFT JOIN store_stock d ON a.itemID = d.itemID
+                WHERE a.finish='0' GROUP BY a.orderID";
 
                 $result = mysqli_query($dbc, $query);
 
@@ -93,6 +98,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Daftar Pesanan</h4>
                                 <h6 class="card-subtitle">Pesanan</h6>
+                                <p>Halaman ini berisi daftar penjulanan yang belum di antar / diterima oleh customer. Halaman ini terhubung dengan stok toko. Jadi ketika ada barang produksi dengan status selesai produksi dan tombol antar belum tersedia. Maka mohon melakukan cek di menu Persediaan - Gudang</p>
 
                                 <div class="table-responsive">
                                     <?php if (mysqli_num_rows($result) >= 1) {
@@ -112,6 +118,7 @@
                                                     <th scope="col">Nama Customer</th>
                                                     <th scope="col">Nama Item </th>
                                                     <th scope="col">Jumlah</th>
+                                                    <th scope="col">Stok Toko</th>
                                                     <th scope="col">Harga</th>
                                                     <th scope="col">Keterangan</th>
                                                     <th scope="col">Status</th>
@@ -128,14 +135,18 @@
                                                         <td><?= $data['dateOrder']; ?></td>
                                                         <td><?= $data['customerName']; ?></td>
                                                         <td><?= $data['itemName']; ?></td>
-                                                        <td><?= $data['quantity']; ?></td>
+                                                        <td class="text-right"><?= $data['quantity']; ?></td>
+                                                        <td class="text-right"><?= $data['totalStock']; ?></td>
                                                         <td class="text-right"><?= rupiah($data['price']); ?></td>
                                                         <td><?= $data['keterangan']; ?></td>
                                                         <td><?php echo ($data['finish'] == 1) ? 'Diterima Customer' : 'Menunggu Konfirmasi'; ?></td>
                                                         <td>
-                                                            <a href="#" data-toggle="modal" data-target="#finishItem<?= $data['id']; ?>">
-                                                                <button type="button" class="btn btn-success btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled' : ''; ?>> Antar</button>
-                                                            </a>
+                                                            <?php if ($data['totalStock'] != "0") { ?>
+                                                                <a href="#" data-toggle="modal" data-target="#finishItem<?= $data['id']; ?>">
+                                                                    <button type="button" class="btn btn-success btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled' : ''; ?>> Antar</button>
+                                                                </a>
+                                                            <?php } ?>
+
                                                             <a href="#" data-toggle="modal" data-target="#editCustomer<?= $data['orderID']; ?>">
                                                                 <button type="button" class="btn btn-info btn-rounded btn-sm" <?php echo ($data['finish'] == 1) ? 'disabled' : ''; ?>> Edit</button>
                                                             </a>

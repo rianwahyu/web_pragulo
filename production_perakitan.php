@@ -106,7 +106,7 @@
                     INNER JOIN item c ON b.itemID = c.itemID
                     INNER JOIN orders d ON b.orderID = d.orderID
                     INNER JOIN users e ON a.username=e.username
-                    WHERE a.status='Perakitan' AND queue='1' ";
+                    WHERE a.status='Perakitan' AND queue='1' AND prodStat='0' ";
                     $result = mysqli_query($dbc, $query);
 
                     ?>

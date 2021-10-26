@@ -25,7 +25,7 @@ if($status == "finishing"){
 
  
 
-echo $query;
+//echo $query;
 
 if (mysqli_multi_query($dbc, $query)) {
     //echo "Sukses";

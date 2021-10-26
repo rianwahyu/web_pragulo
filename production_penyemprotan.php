@@ -105,7 +105,7 @@
                     INNER JOIN item c ON b.itemID = c.itemID
                     INNER JOIN orders d ON b.orderID = d.orderID
                     INNER JOIN users e ON a.username=e.username
-                    WHERE a.status='Penyemprotan' AND queue='1' ";
+                    WHERE a.status='Penyemprotan' AND queue='1' AND prodStat='0' ";
                     $result = mysqli_query($dbc, $query);
 
                     ?>
@@ -113,8 +113,8 @@
                     <div class="col-sm-12 col-md-10 col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Daftar Pegnamplasan</h4>
-                                <h6 class="card-subtitle">Proses Pengamplasan</h6>
+                                <h4 class="card-title">Daftar Penyemprotan</h4>
+                                <h6 class="card-subtitle">Proses Penyemprotan</h6>
 
                                 <?php
                                 if ($status == "true") {

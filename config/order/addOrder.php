@@ -16,7 +16,7 @@ $orderID = getIDOrder();
 $type = "";
 $statusPembayaran = "";
 
-if ($payType = "Cicilan") {    
+if ($payType == "Cicilan") {    
     $statusPembayaran = "unpaid";
 } else {    
     $statusPembayaran = "paid";
@@ -55,7 +55,7 @@ if ($installment != 0) {
     $amount = 0;
     $query = $query . " INSERT INTO `installment`(`orderID`, `amount`, `dueDate`, `status`) VALUES ";
     $j = 0;
-    $amount = $sumTotal / $installment;
+    $amount = ($sumTotal-$DP) / $installment;
     $amount = number_format((float)$amount, 2, '.', '');;    
     for ($k = 0; $k < $installment; $k++) {
 
