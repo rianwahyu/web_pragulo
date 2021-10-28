@@ -363,17 +363,13 @@
                     data: data,
                     cache: false,
                     success: function(data) {
-                        $('#tampil').load("tampil.php");
-                        //document.getElementById("id").value = "";
+                        $('#tampil').load("tampil.php");                        
                         document.getElementById("form-data").reset();
                         $("#itemDetail").hide();
                         $("#itemID").hide();
                         $("#itemDetailNon").hide();
                         $("#jenis_barang_group").hide();
                         $("#non_mebel_group").hide();
-
-                        // $("#error").html(data);
-                        // $("#error").show();
                     },
                     error: function(data) {
                         $("#error").html(data);

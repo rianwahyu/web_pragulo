@@ -71,7 +71,8 @@
             include 'config/connection.php';
 
             $query = "SELECT (SELECT COALESCE(COUNT(orderID),0) FROM orders ) as totOrder, 
-            (SELECT COALESCE(COUNT(productionID),0) FROM production ) as totProduction";
+            (SELECT COALESCE(COUNT(productionID),0) FROM production ) as totProduction, 
+            (SELECT COUNT(id) FROM purchase WHERE status='Pending') as totBeliPending";
             $result = mysqli_query($dbc, $query);
 
             $row = mysqli_fetch_array($result);
@@ -122,11 +123,11 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium"><?= $row['totOrder'] ?></h2>
+                                        <h2 class="text-dark mb-1 font-weight-medium"><?= $row['totBeliPending'] ?></h2>
                                         <!-- <span
                                             class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">+18.33%</span> -->
                                     </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Order</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Pembelian Pending</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="box"></i></span>

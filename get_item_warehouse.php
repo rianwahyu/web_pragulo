@@ -19,8 +19,11 @@ $rows = mysqli_fetch_array($result); ?>
     <?php if ($type == "jati") {
         if ($rows['totStock'] == 0) { ?>
             <p>Jenis Kayu Jati tidak ada digudang, akan di masukkan ke antrian pembelian</p>
-    <?php
-        }
+            <input type="hidden" name="toPembelian" value="1" />
+        <?php
+        } else { ?>
+            <input type="hidden" name="toPembelian" value="0" />
+    <? }
     }
     ?>
 

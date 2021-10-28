@@ -26,7 +26,7 @@ if ($itemCat == "non mebel") {
     // }    
     $sql = $sql . " INSERT INTO `temp_order`(`itemID`, `quantity`, `price`, `itemtype`, `keterangan`, `user`, `image`, itemCat, pembelian) VALUES ('$itemIDNon', '$quantity', '$price', '-', '$keterangan', '$user', '$image', '$itemCat', '$toPembelian') ;";
 } else {
-    $sql = $sql . "INSERT INTO `temp_order`(`itemID`, `quantity`, `price`, `itemtype`, `keterangan`, `user`, `image`, itemCat) VALUES ('$itemID', '$quantity', '$price', '$itemtype', '$keterangan', '$user', '$image', '$itemCat')";
+    $sql = $sql . "INSERT INTO `temp_order`(`itemID`, `quantity`, `price`, `itemtype`, `keterangan`, `user`, `image`, itemCat, pembelian) VALUES ('$itemID', '$quantity', '$price', '$itemtype', '$keterangan', '$user', '$image', '$itemCat', $toPembelian)";
 }
 
 

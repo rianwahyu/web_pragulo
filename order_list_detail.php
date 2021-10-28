@@ -75,9 +75,21 @@
                     $orderID = $_GET['orderID'];
                 }
 
-                $query = "SELECT a.orderID, b.itemName, a.quantity, a.price, a.itemtype, a.keterangan FROM order_item a INNER JOIN item b ON a.itemID=b.itemID WHERE a.orderID='$orderID' ";
+                $query = "SELECT a.orderID, b.itemName, a.quantity, a.price, a.itemtype, a.keterangan, (select sum(price*quantity) as total
+                from order_item where orderID = a.orderID group by orderID) as total
+                FROM order_item a 
+                INNER JOIN item b ON a.itemID=b.itemID 
+                WHERE a.orderID='$orderID' ";
 
-                $query2 = "SELECT * FROM orders WHERE orderID='$orderID' ";
+
+
+                $query2 = "SELECT a.orderID, a.customerName, a.dateOrder, (select sum(price*quantity) as total
+                from order_item where orderID = b.orderID group by orderID) as total, sum(c.amount) as paid, a.customerAddress, a.dateFinish, a.statusPembayaran
+                FROM order_item b 
+                INNER JOIN orders a ON a.orderID = b.orderID 
+                INNER JOIN payment c ON c.orderID = a.orderID
+                WHERE a.orderId='$orderID' 
+                GROUP BY a.orderID, a.customerName, a.dateOrder";
                 $result2 = mysqli_query($dbc, $query2);
                 $rows = mysqli_fetch_array($result2);
 
@@ -152,8 +164,33 @@
 
                                         </div>
                                     </div>
+
                                 <?php }
                                 ?>
+
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Nominal Order</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= rupiah($rows['total']) ?>" disabled>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Terbayar</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= rupiah($rows['paid']) ?>" disabled>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputHorizontalSuccess" class="col-sm-4 col-form-label">Sisa Bayar</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputHorizontalSuccess" value="<?= rupiah($rows['total'] - $rows['paid']) ?>" disabled>
+
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -418,29 +455,35 @@
                                             </tbody>
                                         </table>
 
-                                        <h4 class="card-title">Bayar Cicilan</h4>
-                                        <h6 class="card-subtitle">Pembayaran Cicilan</h6>
+                                        <?php
+                                        if ($rows['statusPembayaran'] == "unpaid") { ?>
+                                            <h4 class="card-title">Bayar Cicilan</h4>
+                                            <h6 class="card-subtitle">Pembayaran Cicilan</h6>
+                                            <p>Pilih Periode</p>
 
-                                        <form action="config/order/updateInstallment.php" method="POST">
-                                            <select name="test" id="test">
-                                                <option disabled selected>Pilih Periode Pembayaran</option>
-                                                <?php
-                                                $l = 1;
-                                                while ($data5 = mysqli_fetch_array($result5)) { ?>
-                                                    <option value="<?= $l; ?>"><?= $l; ?> Bulan</option>
-                                                <?php
-                                                    $l++;
-                                                }
-                                                ?>
-                                            </select>
-                                            <!-- <label>Total dibayarakan : Rp. </label> -->
-                                            <span data-val="<?= round($data4['amount']) ?>"><?= round($data4['amount']) ?></span>
+                                            <form action="config/order/updateInstallment.php" method="POST">
+                                                <select name="test" id="test" required>
+                                                    <?php
+                                                    $l = 1;
+                                                    while ($data5 = mysqli_fetch_array($result5)) { ?>
+                                                        <option value="<?= $l; ?>"><?= $l; ?> Bulan</option>
+                                                    <?php
+                                                        $l++;
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <span data-val="<?= round($data4['amount']) ?>"><?= round($data4['amount']) ?></span>
+                                                <input type="hidden" name="amount" value="<?= round($data4['amount']) ?>" />
+                                                <input type="hidden" name="sumTotals" value="<?= round($sumTotals) ?>" />
+                                                <input type="hidden" name="paid" value="<?= round($rows['paid']) ?>" />
+                                                <input type="hidden" name="sisa" value="<?= round($rows['sisa']) ?>" />
 
-                                            <input type="hidden" name="amount" value="<?= round($data4['amount']) ?>" />
-                                            <input type="hidden" name="sumTotals" value="<?= round($sumTotals) ?>" />
-                                            <input type="hidden" name="orderID" value="<?= $orderID ?>" />
-                                            <button class="btn btn-success" type="submit" name="submit">Update Pembayaran</button>
-                                        </form>
+                                                <input type="hidden" name="orderID" value="<?= $orderID ?>" />
+                                                <button class="btn btn-success" type="submit" name="submit">Update Pembayaran</button>
+                                            </form>
+                                        <?php }
+                                        ?>
+
                                     <?php } else {
                                         echo "<h4>Tidak ditemukan data cicilan / pembayaran dilakukan secara cash</h4>";
                                     }

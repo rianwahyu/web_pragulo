@@ -45,7 +45,11 @@
                         </span></a>
                 </li>
 
-                <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">List Produksi</span></a>
+                <li class="sidebar-item"> <a class="sidebar-link" href="production_list" aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span class="hide-menu">List Produksi
+                        </span></a>
+                </li>
+
+                <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">List Proses Produksi</span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
                         <li class="sidebar-item"><a href="production_perakitan" class="sidebar-link"><span class="hide-menu"> Proses Perakitan
                                 </span></a>

@@ -65,11 +65,10 @@
                 <?php
                 include 'config/connection.php';
 
-                $query = "SELECT a.orderID, a.customerName, a.dateOrder, SUM((b.quantity * b.price)) as total, SUM(c.amount) dibayarkan
-                FROM orders a 
-                INNER JOIN order_item b ON a.orderID = b.orderID
-                INNER JOIN payment c ON a.orderID = c.orderID
-                WHERE a.statusPembayaran='unpaid' GROUP BY b.orderID";
+                $query = "SELECT a.orderID, a.customerName, a.dateOrder, (select sum(price*quantity) as total
+                from order_item where orderID = b.orderID group by orderID) as total, sum(c.amount) as paid
+                FROM order_item b INNER JOIN orders a ON a.orderID = b.orderID INNER JOIN payment c ON c.orderID = a.orderID
+                WHERE a.statusPembayaran='unpaid' GROUP BY a.orderID, a.customerName, a.dateOrder";
 
                 // echo $query;
 
@@ -119,8 +118,8 @@
                                                         <td><?= $data['customerName']; ?></td>
                                                         <td><?= $data['dateOrder']; ?></td>
                                                         <td><?= rupiah($data['total']); ?></td>
-                                                        <td><?= rupiah(floor($data['dibayarkan'])); ?></td>
-                                                        <td><?= rupiah($data['total']-$data['dibayarkan']); ?></td>
+                                                        <td><?= rupiah(floor($data['paid'])); ?></td>
+                                                        <td><?= rupiah($data['total']-$data['paid']); ?></td>
                                                         <td>
                                                             <a href="order_list_detail?orderID=<?= $data['orderID']?>">
                                                                 <button type="button" class="btn btn-info btn-rounded"><i class="fas fa-eye"></i> Detail</button>

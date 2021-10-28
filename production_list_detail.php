@@ -24,6 +24,10 @@
                 $productionID = $_GET['productionID'];
                 $status = $_GET['status'];
                 $source = $_GET['source'];
+
+                if($source==""){
+                    $source="production_list";
+                }
             } ?>
 
             <div class="page-breadcrumb">
@@ -207,7 +211,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Apakah anda ingin mengkonfirmasi proses produksi selesai dan barang akan di kirim ke gudang ?</p>
+                                    <p>Apakah anda ingin mengkonfirmasi proses produksi selesai dan barang akan di kirim ke toko ?</p>
                                     <input type="hidden" class="form-control" name="productionID" value="<?= $productionID ?>" />
                                     <input type="hidden" class="form-control" name="orderID" value="<?= $rows['orderID'] ?>" />
                                     <input type="hidden" class="form-control" name="itemID" value="<?= $rows['itemID'] ?>" />

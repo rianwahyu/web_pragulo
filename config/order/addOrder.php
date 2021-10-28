@@ -12,6 +12,9 @@ $dateFinish = $_POST['dateFinish'];
 $payType = $_POST['payType'];
 $DP = $_POST['DP'];
 
+$myArray = array();
+
+
 $orderID = getIDOrder();
 $type = "";
 $statusPembayaran = "";
@@ -26,7 +29,7 @@ $query = "";
 
 $query = $query . " INSERT INTO `orders`(`orderID`, `type`, `installment`, `status`, `customerName`, `customerAddress`, `customerPhone`, `dateOrder`, `dateFinish`, statusPembayaran) VALUES ('$orderID', '$payType', '$installment', 'Proses', '$customerName', '$customerAddress', '$customerPhone', '$dateOrder', '$dateFinish','$statusPembayaran'); ";
 
-$query = $query . "INSERT INTO `order_item`(`orderID`, `itemID`, `quantity`, `price`, `itemtype`, `keterangan`, image, itemCat) VALUES ";
+$query = $query . "INSERT INTO `order_item`(`orderID`, `itemID`, `quantity`, `price`, `itemtype`, `keterangan`, image, itemCat, pembelian) VALUES ";
 
 $sumTotal = 0;
 $total = 0;
@@ -35,18 +38,28 @@ $query2 = "SELECT * FROM temp_order WHERE user='$username'";
 $result2 = mysqli_query($dbc, $query2);
 if (mysqli_num_rows($result2)) {
     while ($data2 = mysqli_fetch_array($result2)) {
+        $myArray[] = $data2;        
+    }
+}
 
-        if ($i != 0)
+foreach($myArray as $data2){
+    if ($i != 0)
             $query .= ", ";
-        $query = $query . "('$orderID', '" . $data2['itemID'] . "', '" . $data2['quantity'] . "', '" . $data2['price'] . "', '" . $data2['itemtype'] . "', '" . $data2['keterangan'] . "', '".$data2['image']."', '".$data2['itemCat']."' ) ";
+        $query = $query . "('$orderID', '" . $data2['itemID'] . "', '" . $data2['quantity'] . "', '" . $data2['price'] . "', '" . $data2['itemtype'] . "', '" . $data2['keterangan'] . "', '".$data2['image']."', '".$data2['itemCat']."', '".$data2['pembelian']."' ) ";
         $i++;
 
         $total = round($data2['quantity']) * round($data2['price']);
 
-        $sumTotal = $sumTotal + $total;
+        $sumTotal = $sumTotal + $total;        
+}
+
+$query = $query . " ; ";
+
+foreach($myArray as $data22){
+    if($data22['pembelian']=="1"){
+        $query = $query . " INSERT INTO purchase (itemID, quantity, type, status, datePurchase,remark, orderID) VALUES ('".$data22['itemID']."', '".$data22['quantity']."', '".$data22['itemCat']."', 'Pending', NOW(), 'Pembelian dari Proses Order', '$orderID') ; ";
     }
 }
-$query = $query . " ; ";
 
 
 if ($installment != 0) {
@@ -77,26 +90,11 @@ if ($installment != 0) {
     $query = $query. "INSERT INTO `payment`(`orderID`, `amount`, `status`) VALUES ('$orderID', '$sumTotal', 'success') ;";
 }
 
-/* if ($installment == 0) {
-    $j = 0;
-    $query3 = "SELECT itemID, quantity FROM temp_order WHERE itemtype !='onOrder' AND user='$username' ";
-    $result3 = mysqli_query($dbc, $query3);
-    if (mysqli_num_rows($result3)) {
-        $query = $query . " INSERT INTO `item_stock`(`itemID`, `type`, `qty`, orderID) VALUES ";
-        while ($data3 = mysqli_fetch_array($result3)) {
-
-            if ($j != 0)
-                $query .= ", ";
-            $query = $query . "('" . $data3['itemID'] . "', 'out' ,'" . $data3['quantity'] . "', '$orderID') ";
-            $j++;
-        }
-    }
-    $query = $query . " ; ";
-} */
 
 $query = $query . " DELETE FROM `temp_order` WHERE user='$username' ; ";
 
-//echo $query;
+echo $query;
+
 if (mysqli_multi_query($dbc, $query)) {
     echo "<meta http-equiv='refresh' content='1 url=../../order_list2'>";
 } else {
